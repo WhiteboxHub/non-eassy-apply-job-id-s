@@ -1,11 +1,9 @@
+selenium
 undetected-chromedriver
 selenium-stealth
-humancursor
-python-dotenv
-duckdb
-requests>=2.31.0
-pyyaml>=6.0
-pandas
 beautifulsoup4
+requests>=2.31.0
+python-dotenv
 mysql-connector-python
-selenium
+pyyaml>=6.0
+schedule

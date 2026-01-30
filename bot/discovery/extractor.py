@@ -275,9 +275,9 @@ class JobExtractor(Search):
         else:
              formatted_location = location
 
-        # f_TPR=r86400 is the filter for Past 24 Hours
+        # f_TPR=r604800 is the filter for Past Week (more results than 24h)
         location_param = f"&location={formatted_location}"
-        url = ("https://www.linkedin.com/jobs/search/?f_TPR=r86400&keywords=" +
+        url = ("https://www.linkedin.com/jobs/search/?f_TPR=r604800&keywords=" +
                position + location_param + "&start=" + str(jobs_per_page) + 
                experience_level_param + distance_param + sort_param + extra_params)
         

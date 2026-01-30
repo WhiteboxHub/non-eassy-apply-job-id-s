@@ -36,10 +36,11 @@ Ensure your `.env` file contains your MySQL credentials and API keys. The bot us
 Based on the [Trigger-Job Separation](file:///C:/Users/KUMAR-MINI-PC-7/.gemini/antigravity/brain/6435329c-c43b-4a45-81d8-c18b0fa7b448/walkthrough.md) pattern, you have three ways to run the bot:
 
 ### 1. ⚡ Manual Run (Immediate)
-Use this to test the bot or run an extraction right now:
+**Use this command to run the bot:**
 ```bash
 python run_now.py
 ```
+*Note: This will execute the extraction process immediately and save results to `data/exports/extractor_job_links.csv`.*
 
 ### 2. 🕙 Automatic Internal Scheduler
 Run this and leave the terminal open. It will wait and trigger the bot every day at **08:20 AM**:
@@ -57,9 +58,9 @@ For the most reliable "hands-off" experience, connect the provided **`trigger_bo
 
 ## 📂 Project Architecture
 
-- **`daily_extractor.py`**: The core "Job" layer. Contains extraction and sync logic.
+- **`daily_extractor.py`**: The **Core Engine**. Contains the actual logic to open the browser, find jobs, and save them (`run_extraction` function).
 - **`scheduler.py`**: The internal "Trigger" for hands-off daily runs.
-- **`run_now.py`**: Shortcut for manual trigger.
+- **`run_now.py`**: The **Manual Switch**. A simple shortcut that imports and runs the engine immediately. Use this when you want to run the bot *now* instead of waiting for the schedule.
 - **`trigger_bot.bat`**: Integration point for OS-level scheduling.
 - **`candidate_marketing.yaml`**: Local configuration file for candidate keywords and overrides.
 
