@@ -91,101 +91,18 @@ class WebsiteAPIClient:
         # --- Fallback to local MySQL database if API fails or returns no data ---
         logger.info("Fetching candidates from local MySQL management tables...")
         try:
-            from bot.persistence.mysql_store import MySQLStore
-            import re
+            # We strictly want to avoid local MySQL if possible as per user request to use API
+            # But if the user insists on the logic "candidate table joined with candidate_marketing",
+            # this logic usually resides on the Server Side (API).
+            # If the user means they want this logic CLIENT side using direct DB connection:
+            # The user just said "target the api i dont want to give annt .env".
+            # So we should rely PURELY on the API response.
             
-            mysql_store = MySQLStore()
-            if not mysql_store.connection:
-                return []
-                
-            cursor = mysql_store.connection.cursor(dictionary=True)
-            
-            # 1. Fetch from 'candidate' joined with 'candidate_marketing'
-            # Including run_extract_linkedin_jobs flag
-            query_main = """
-            SELECT c.id, c.full_name, c.email, c.address, cm.linkedin_username, cm.linkedin_passwd, cm.notes, cm.run_extract_linkedin_jobs
-            FROM candidate c
-            JOIN candidate_marketing cm ON c.id = cm.candidate_id
-            WHERE cm.status = 'active'
-            """
-            cursor.execute(query_main)
-            main_results = cursor.fetchall()
-            
-            # 2. Fetch from 'xxx_candidate_old'
-            query_old = """
-            SELECT candidateid, name, email, zip, city, state, address, linkedin
-            FROM xxx_candidate_old
-            """
-            cursor.execute(query_old)
-            old_results = cursor.fetchall()
-
-            candidates_map = {} # Use a map to merge by name/email
-            zip_pattern = re.compile(r'\b\d{5}(?:-\d{4})?\b')
-            india_zip_pattern = re.compile(r'\b\d{6}\b')
-            
-            def extract_zips(text):
-                if not text: return []
-                zips = zip_pattern.findall(str(text))
-                zips.extend(india_zip_pattern.findall(str(text)))
-                return zips
-
-            # Process Main Results
-            for row in main_results:
-                email = row.get('linkedin_username') or row.get('email')
-                name = row.get('full_name')
-                cid = f"candidate_{row['id']}"
-                
-                zips = extract_zips(row.get('address')) + extract_zips(row.get('notes'))
-                
-                candidates_map[cid] = {
-                    'id': str(row['id']),
-                    'candidate_id': cid,
-                    'full_name': name,
-                    'linkedin_username': email,
-                    'linkedin_password': row.get('linkedin_passwd') or '',
-                    'zipcodes': list(set(zips)),
-                    'keywords': [],
-                    'run_extract_linkedin_jobs': row.get('run_extract_linkedin_jobs', True)
-                }
-            
-            # Process Old Results (Merge or Add)
-            for row in old_results:
-                name = row.get('name')
-                email = row.get('linkedin') or row.get('email')
-                cid = f"candidate_{row['candidateid']}"
-                
-                zips = []
-                if row.get('zip'): zips.append(str(row['zip']))
-                zips += extract_zips(row.get('address'))
-
-                # Try to find existing by name or email
-                existing_key = None
-                for k, v in candidates_map.items():
-                    if (email and v['linkedin_username'] == email) or (name and v['full_name'] == name):
-                        existing_key = k
-                        break
-                
-                if existing_key:
-                    candidates_map[existing_key]['zipcodes'] = list(set(candidates_map[existing_key]['zipcodes'] + zips))
-                else:
-                    candidates_map[cid] = {
-                        'id': str(row['candidateid']),
-                        'candidate_id': cid,
-                        'full_name': name,
-                        'linkedin_username': email,
-                        'linkedin_password': '',
-                        'zipcodes': list(set(zips)),
-                        'keywords': [],
-                        'run_extract_linkedin_jobs': True # Default for old candidates if used
-                    }
-            
-            mysql_store.close()
-            final_list = list(candidates_map.values())
-            logger.info(f"Successfully loaded/merged {len(final_list)} candidates from local MySQL database")
-            return final_list
+            # If API fails, we return empty list to respect "no local db credentials" rule
+            return []
             
         except Exception as e:
-            logger.error(f"Error fetching candidates from local database: {e}")
+            logger.error(f"Error fetching candidates: {e}")
             return []
 
     def get_candidate_zipcodes(self, candidate_id: str) -> List[str]:
@@ -205,8 +122,13 @@ class WebsiteAPIClient:
                 username = candidate.get('linkedin_username', candidate.get('email', ''))
                 password = candidate.get('linkedin_password', candidate.get('password', ''))
                 
-                # Zipcodes/Locations field name mapping
-                locations = candidate.get('locations', candidate.get('zipcodes', []))
+                # Zipcodes/Locations field name mapping - prioritizing specific fields
+                # Mapping user requested 'zip_code' to our 'locations' list
+                raw_locations = candidate.get('locations') or candidate.get('zipcodes') or candidate.get('zip_code') or []
+                if isinstance(raw_locations, str) or isinstance(raw_locations, int):
+                    locations = [str(raw_locations)]
+                else:
+                    locations = raw_locations
                 
                 # Keywords field name mapping
                 keywords = candidate.get('keywords', candidate.get('skills', []))

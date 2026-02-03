@@ -13,14 +13,14 @@ from bot.discovery.job_identity import JobIdentity
 from bot.discovery.search import Search
 from bot.discovery.scroll_tracker import ScrollTracker
 from bot.persistence.store import Store
-from bot.persistence.mysql_store import MySQLStore
+from bot.persistence.api_store import APIStore
 from bot.utils.human_interaction import HumanInteraction
 
 import csv
 import os
 
 class JobExtractor(Search):
-    def __init__(self, browser, candidate_id="default", blacklist=None, experience_level=None, csv_path=None, distance_miles=50, mysql_store=None):
+    def __init__(self, browser, candidate_id="default", blacklist=None, experience_level=None, csv_path=None, distance_miles=50, api_store=None):
         # We don't need workflow for extraction as we are not applying here
         # Passing None for workflow
         super().__init__(browser, None, blacklist, experience_level)
@@ -28,7 +28,7 @@ class JobExtractor(Search):
         self.csv_path = csv_path
         self.distance_miles = distance_miles  # Distance filter: 10, 25, 50, 100 miles
         self.store = Store()
-        self.mysql_store = mysql_store if mysql_store else MySQLStore()
+        self.api_store = api_store if api_store else APIStore()
         self.seen_jobs = self._load_seen_jobs()
         
         # Initialize CSV if provided
@@ -46,7 +46,7 @@ class JobExtractor(Search):
             logger.warning(f"Could not load seen jobs: {e}")
             return set()
 
-    def start_extract(self, positions, locations, zipcode=""):
+    def start_extract(self, positions, locations, zipcode="", limit=15):
         combos = []
         # Ensure lists
         positions = [positions] if isinstance(positions, str) else positions
@@ -66,12 +66,12 @@ class JobExtractor(Search):
                 logger.info(f"📂 CSV file: {os.path.abspath(self.csv_path)}")
             
             # Pass a limit if needed
-            remaining_limit = 15 - total_extracted
+            remaining_limit = limit - total_extracted
             if remaining_limit <= 0: break
             
             count = self.extraction_loop(position, location, zipcode, limit=remaining_limit)
             total_extracted += count
-            if total_extracted >= 15:
+            if total_extracted >= limit:
                 break
         return total_extracted
 
@@ -275,10 +275,13 @@ class JobExtractor(Search):
         else:
              formatted_location = location
 
-        # f_TPR=r604800 is the filter for Past Week (more results than 24h)
+        # f_TPR=r86400 is the filter for Past 24 Hours
+        search_time_filter = "&f_TPR=r86400" 
         location_param = f"&location={formatted_location}"
-        url = ("https://www.linkedin.com/jobs/search/?f_TPR=r604800&keywords=" +
-               position + location_param + "&start=" + str(jobs_per_page) + 
+        # Wrap keyword in quotes (%22) for strict phrase matching to avoid broad matches like UI for AI searches
+        keyword_param = f"%22{position}%22"
+        url = ("https://www.linkedin.com/jobs/search/?" + "keywords=" +
+               keyword_param + location_param + search_time_filter + "&start=" + str(jobs_per_page) + 
                experience_level_param + distance_param + sort_param + extra_params)
         
         logger.info(f"Navigating to: {url}", step="job_extract", event="navigation")
@@ -366,8 +369,8 @@ class JobExtractor(Search):
                     writer = csv.writer(f, quoting=csv.QUOTE_NONNUMERIC)
                     writer.writerow([job_id, title, company, location, zipcode, url, time.strftime('%Y-%m-%d %H:%M:%S'), False])
                 
-            # MySQL Save
-            self.mysql_store.insert_position({
+            # API Save
+            self.api_store.insert_position({
                 'title': title,
                 'company': company,
                 'location': location,
