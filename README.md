@@ -48,21 +48,19 @@ API_TOKEN=your_api_token_here
 
 5. **Configure candidates**
 
-Edit `candidate.yaml` with your LinkedIn credentials and job search criteria:
-```yaml
-candidates:
-  - candidate_id: "candidate_001"
-    name: "Your Name"
-    linkedin_username: "your_email@example.com"
-    linkedin_password: "your_password"
-    keywords:
-      - "AI/ML"
-      - "Software Engineer"
-    locations:
-      - "94566"  # Zip codes
-      - "10001"
-    run_extract_linkedin_jobs: true
-```
+   Copy `candidate.yaml.example` to `candidate.yaml` and edit with your LinkedIn credentials:
+   ```bash
+   cp candidate.yaml.example candidate.yaml
+   ```
+   Then edit `candidate.yaml`:
+   ```yaml
+   candidates:
+     - candidate_id: "candidate_001"
+       name: "Your Name"
+       linkedin_username: "your_email@example.com"
+       linkedin_password: "your_password"
+       # ...
+   ```
 
 ## Usage
 
@@ -77,32 +75,42 @@ The bot can be scheduled to run daily at a specific time (configured in `.env`):
 python scheduler.py
 ```
 
-### Windows Task Scheduler
-1. Open Task Scheduler
-2. Create new task
-3. Set action to run `trigger_bot.bat`
-4. Set trigger to daily at your preferred time (recommended: same as `SCHEDULER_TIME`)
+### Windows Task Scheduler (Recommended)
+For a 100% automatic setup:
+1. Open **Task Scheduler**.
+2. Create a basic task pointing to `trigger_bot.bat`.
+3. Set the trigger to daily at your preferred time.
+
+## Maintenance & Security
+
+### Automatic Cleanup
+To keep the local database small and relevant, the bot **automatically deletes extraction history older than 3 days** every time a run starts.
+
+### Scrubbing Sensitive Data
+If you need to share your local database or clear your credentials, use the provided scrub script:
+```bash
+# Clears passwords in DB and removes the local API token
+python scripts/scrub_sensitive.py
+```
+
+### Security Notes
+⚠️ **Important**: 
+- **Never commit `.env` or `candidate.yaml`** (they are ignored by Git).
+- Use `candidate.yaml.example` as a template for new environments.
+- Keep your `API_TOKEN` and passwords secure.
 
 ## Project Structure
 
 ```
 project-bot-easy-apply-python-webdriver/
-├── bot/                    # Core bot modules
-│   ├── api/               # API client
-│   ├── core/              # Browser and session management
-│   ├── discovery/         # Job extraction logic
-│   ├── persistence/       # Data storage
-│   └── utils/             # Utilities and helpers
-├── data/                  # Data storage
-│   ├── exports/           # CSV exports
-│   └── profiles/          # Browser profiles
+├── bot/                    # Core bot logic
+├── data/                  # Local storage (profiles, exports)
+├── scripts/               # Maintenance and security scripts
 ├── daily_extractor.py     # Main extraction script
-├── scheduler.py           # Scheduling script
-├── run_now.py             # Manual run script
-├── candidate.yaml         # Candidate configuration
-├── .env                   # Environment variables (not in Git)
+├── scheduler.py           # Daily scheduler script
+├── run_now.py             # Immediate trigger script
 ├── .env.example           # Environment template
-└── requirements.txt       # Python dependencies
+└── candidate.yaml.example # Candidate configuration template
 ```
 
 ## Configuration
@@ -170,13 +178,6 @@ project-bot-easy-apply-python-webdriver/
 - Delete browser profile: `rm -rf data/profiles/candidate_001`
 - Update Chrome to latest version
 
-## Security Notes
-
-⚠️ **Important**: 
-- Never commit `.env` with real credentials (it's in `.gitignore`)
-- `candidate.yaml` contains dummy credentials in Git - replace with your real credentials locally
-- Keep your API tokens secure
-- Use strong passwords
 
 ## License
 
