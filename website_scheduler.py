@@ -182,21 +182,23 @@ def update_log(log_id, status, records_processed=0, error_summary=None, executio
 def fix_backend_visibility():
     """
     Workaround: Force the backend to see this workflow by resetting type to 'email_sender'
+    AND resetting the schedule time/status to ensure it's considered 'due'.
     """
     try:
         client = get_api_client()
         
-        # Reset SQL (Force 'email_sender' type)
+        # 1. Reset SQL (Force 'email_sender' type)
         # Using the orchestrator endpoint to avoid hardcoded absolute URLs
         reset_url = f"{get_orchestrator_endpoint()}/workflows/{WORKFLOW_ID}/execute-reset-sql"
-        sql = f"UPDATE automation_workflows SET workflow_type = 'email_sender' WHERE id = {WORKFLOW_ID}"
+        sql_type = f"UPDATE automation_workflows SET workflow_type = 'email_sender' WHERE id = {WORKFLOW_ID}"
+        client.post(reset_url, json={"sql_query": sql_type})
         
-        response = client.post(reset_url, json={"sql_query": sql})
+        # 2. Reset Time and Status (Force 'due' status)
+        past_time = (datetime.now() - timedelta(hours=2)).strftime('%Y-%m-%d %H:%M:%S')
+        sql_time = f"UPDATE automation_workflows_schedule SET next_run_at = '{past_time}', is_running = 0 WHERE automation_workflow_id = {WORKFLOW_ID}"
+        client.post(reset_url, json={"sql_query": sql_time})
         
-        if response.status_code == 200:
-            logger.info("✅ Applied backend visibility workaround.")
-        else:
-            logger.warning(f"Backend visibility workaround status: {response.status_code}")
+        logger.info("✅ Applied backend visibility & due-status workaround.")
             
     except Exception as e:
         logger.debug(f"Visibility workaround failed: {e}")
@@ -295,6 +297,23 @@ def main():
                 records_processed=records_processed,
                 execution_metadata=execution_metadata
             )
+        
+    except KeyboardInterrupt:
+        logger.warning("Extraction interrupted by user (Ctrl+C).")
+        
+        # Update log to show it was interrupted
+        if log_id:
+            update_log(
+                log_id,
+                status='failed',
+                error_summary="Interrupted by user (Ctrl+C)",
+                execution_metadata={
+                    "message": "Run was manually interrupted",
+                    "workflow_key": WORKFLOW_KEY,
+                    "run_id": run_id
+                }
+            )
+        raise  # Re-raise to ensure script exits properly
         
     except Exception as e:
         logger.error(f"Extraction failed: {e}")

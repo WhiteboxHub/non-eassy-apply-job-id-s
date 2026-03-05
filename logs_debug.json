@@ -1,0 +1,146 @@
+[
+  {
+    "id": 103,
+    "run_id": "040d759e-5040-4697-bda8-3af8e942ac58",
+    "parameters_used": null,
+    "records_processed": 0,
+    "error_summary": null,
+    "started_at": "2026-03-05T14:41:00",
+    "created_at": "2026-03-05T22:41:03.733323",
+    "workflow_id": 8,
+    "schedule_id": 8,
+    "status": "running",
+    "execution_metadata": null,
+    "records_failed": 0,
+    "error_details": null,
+    "finished_at": null,
+    "updated_at": "2026-03-05T22:41:03.733323"
+  },
+  {
+    "id": 102,
+    "run_id": "c1d30c91-8b6a-42c9-951f-11674866758b",
+    "parameters_used": null,
+    "records_processed": 0,
+    "error_summary": null,
+    "started_at": "2026-03-05T14:40:41",
+    "created_at": "2026-03-05T22:40:44.088590",
+    "workflow_id": 8,
+    "schedule_id": 8,
+    "status": "success",
+    "execution_metadata": {
+      "run_id": "c1d30c91-8b6a-42c9-951f-11674866758b",
+      "message": "Completed via website scheduler",
+      "jobs_found": 0,
+      "jobs_sample": [],
+      "workflow_key": "linkedin_non_easy_job_extractor",
+      "completion_timestamp": "2026-03-05 14:40:42"
+    },
+    "records_failed": 0,
+    "error_details": null,
+    "finished_at": "2026-03-05T14:40:42",
+    "updated_at": "2026-03-05T22:40:45"
+  },
+  {
+    "id": 101,
+    "run_id": "7cbd0fda-9e0b-4916-8943-bf9074c53871",
+    "parameters_used": null,
+    "records_processed": 6,
+    "error_summary": null,
+    "started_at": "2026-03-05T14:37:19",
+    "created_at": "2026-03-05T22:37:22.079456",
+    "workflow_id": 8,
+    "schedule_id": 8,
+    "status": "success",
+    "execution_metadata": {
+      "run_id": "7cbd0fda-9e0b-4916-8943-bf9074c53871",
+      "message": "Completed via website scheduler",
+      "jobs_found": 6,
+      "jobs_sample": [
+        {
+          "url": "https://careers.boozallen.com/careers/JobDetail?jobId=121518&source=JB-16500",
+          "title": "ai and ml engineer"
+        },
+        {
+          "url": "https://www.linkedin.com/jobs/view/4381666495",
+          "title": "systems engineer ii (github administrator)"
+        },
+        {
+          "url": "https://www.linkedin.com/jobs/view/4381659611",
+          "title": "senior java with python software engineer"
+        },
+        {
+          "url": "https://www.linkedin.com/jobs/view/4380612442",
+          "title": "ai developer"
+        },
+        {
+          "url": "https://www.linkedin.com/jobs/view/4380490725",
+          "title": "devops engineer"
+        },
+        {
+          "url": "https://www.linkedin.com/jobs/view/4381618341",
+          "title": "python/snowflake developer (jersey city, nj or tampa, fl)"
+        }
+      ],
+      "workflow_key": "linkedin_non_easy_job_extractor",
+      "completion_timestamp": "2026-03-05 14:39:34"
+    },
+    "records_failed": 0,
+    "error_details": null,
+    "finished_at": "2026-03-05T14:39:34",
+    "updated_at": "2026-03-05T22:39:37"
+  },
+  {
+    "id": 100,
+    "run_id": "4e66436d-7cde-4351-a94d-56d56380851d",
+    "parameters_used": {
+      "email": "bindugr311@gmail.com",
+      "candidate_id": 895,
+      "trigger_type": "daily"
+    },
+    "records_processed": 183,
+    "error_summary": null,
+    "started_at": "2026-03-05T14:11:06.535697",
+    "created_at": "2026-03-05T22:11:06.414179",
+    "workflow_id": 1,
+    "schedule_id": 1,
+    "status": "success",
+    "execution_metadata": null,
+    "records_failed": 0,
+    "error_details": null,
+    "finished_at": "2026-03-05T14:23:19.815108",
+    "updated_at": "2026-03-05T22:23:18"
+  },
+  {
+    "id": 99,
+    "run_id": "fa2c7405-0ded-4b00-8704-68926276b990",
+    "parameters_used": null,
+    "records_processed": 2,
+    "error_summary": null,
+    "started_at": "2026-03-05T13:26:52",
+    "created_at": "2026-03-05T21:26:54.865262",
+    "workflow_id": 8,
+    "schedule_id": 8,
+    "status": "success",
+    "execution_metadata": {
+      "run_id": "fa2c7405-0ded-4b00-8704-68926276b990",
+      "message": "Completed via website scheduler",
+      "jobs_found": 2,
+      "jobs_sample": [
+        {
+          "url": "https://us.haystackapp.io/roles/697f899399f80eb74d345bb6?src=linkedin",
+          "title": "data engineer"
+        },
+        {
+          "url": "https://careers.pnc.com/global/en/job/PNC1GLOBALR212454/Portfolio-Analytics-and-Strategy-Analyst-Senior-Monitoring-under-Enterprise-Fraud-Organization-EFO-Tableau-Power-BI-SQL-Python-R?utm_source=symphonytalentmpx&utm_medium=phenom-feeds",
+          "title": "portfolio analytics and strategy analyst senior - monitoring under enterprise fraud organization (efo) - (tableau, power bi, sql, python, r)"
+        }
+      ],
+      "workflow_key": "linkedin_non_easy_job_extractor",
+      "completion_timestamp": "2026-03-05 13:28:06"
+    },
+    "records_failed": 0,
+    "error_details": null,
+    "finished_at": "2026-03-05T13:28:06",
+    "updated_at": "2026-03-05T21:28:08"
+  }
+]
