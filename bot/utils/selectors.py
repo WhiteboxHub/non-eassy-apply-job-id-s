@@ -95,7 +95,7 @@ LOCATORS = {
     },
     
     "external_apply_button": {
-        "primary": (By.XPATH, "//a[contains(@href, 'redir/redirect')]"),
+        "primary": (By.XPATH, "//a[contains(@href, 'redir/redirect')] | //a[contains(@aria-label, 'Apply on company website')]"),
         "fallback": (By.XPATH, "//button[contains(@aria-label, 'Apply') and not(contains(@aria-label, 'filter'))] | //a[contains(@aria-label, 'Apply') and not(contains(@aria-label, 'filter'))] | //button[.//span[text()='Apply']] | //a[.//span[text()='Apply']] | //button[@id='jobs-apply-button-id']")
     }
 }

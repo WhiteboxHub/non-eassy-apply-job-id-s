@@ -288,6 +288,18 @@ def main():
             execution_metadata['jobs_found'] = records_processed
             execution_metadata['jobs_sample'] = results.get('jobs_sample', [])
             execution_metadata['completion_timestamp'] = results.get('timestamp')
+            
+            if results.get('status') == 'interrupted':
+                logger.warning("Extraction reported as interrupted via return value.")
+                if log_id:
+                    update_log(
+                        log_id,
+                        status='failed',
+                        records_processed=records_processed,
+                        error_summary="Interrupted by user (Ctrl+C)",
+                        execution_metadata=execution_metadata
+                    )
+                return  # Skip success logging
         
         # Update log as success
         if log_id:

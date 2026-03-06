@@ -217,18 +217,12 @@ def run_extraction():
                 # Finalize metrics even on error
                 metrics.end_run()
                 continue
-
-        # Normal completion: return captured stats for the orchestrator/logger
-        buffered = len(api_store.batch_buffer)
-        return {
-            "jobs_saved": buffered,
-            "jobs_sample": [{"title": j.get('title'), "url": j.get('url')} for j in api_store.batch_buffer[:10]],
-            "timestamp": datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        }
+        # Normal completion before finally block
+        pass
 
     except KeyboardInterrupt:
         logger.warning("⚠️ Run interrupted by user (Ctrl+C). Flushing all buffered jobs before exit...")
-        raise  # Re-raise so the orchestrator can mark the run as failed
+        interrupted = True
     except Exception as e:
         logger.error(f"❌ Critical error in run_extraction: {e}")
         raise e # Re-raise for the logger to catch
@@ -238,12 +232,22 @@ def run_extraction():
         jobs_sample = []
         if buffered > 0:
             logger.info(f"📡 Final bulk insert: {buffered} jobs collected during this run.")
+            jobs_sample = [{"title": j.get('title'), "url": j.get('url')} for j in api_store.batch_buffer[:10]]
             api_store.flush_batches()
         else:
             logger.info("No new jobs collected — nothing to flush.")
         
         api_store.close()
         logger.info("✅ Daily Extraction completed.")
+
+        status_val = "interrupted" if 'interrupted' in locals() and interrupted else "success"
+        
+        return {
+            "jobs_saved": buffered,
+            "jobs_sample": jobs_sample,
+            "timestamp": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            "status": status_val
+        }
 
 if __name__ == '__main__':
     run_extraction()
