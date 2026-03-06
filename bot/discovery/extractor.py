@@ -211,9 +211,9 @@ class JobExtractor(Search):
                             
                             is_easy = "Easy Apply" in link.text
                             if is_easy:
-                                logger.info(f"🚫 Skipping EASY APPLY job: {job_id}")
-                                self.seen_jobs.add(job_id)
-                                continue
+                                logger.info(f"✅ Found EASY APPLY job: {job_id}")
+                            else:
+                                logger.info(f"✅ Found STANDARD job: {job_id}")
 
                             # Apply strict title filter
                             if self.title_filters:
@@ -228,8 +228,8 @@ class JobExtractor(Search):
                             self.browser.execute_script("arguments[0].click();", link)
                             time.sleep(1)
                             
-                            # Save the job (Only Non-Easy Apply jobs reach this point)
-                            self.save_job(job_id, link, position, location, zipcode)
+                            # Save the job
+                            self.save_job(job_id, link, position, location, zipcode, is_easy_apply=is_easy)
                             self.seen_jobs.add(job_id)
                             extracted_on_page += 1
                             extracted_total += 1
@@ -324,7 +324,7 @@ class JobExtractor(Search):
         time.sleep(3)
         self.browser.execute_script("window.scrollTo(0, 0);")
 
-    def save_job(self, job_id, element, position, search_location, zipcode=""):
+    def save_job(self, job_id, element, position, search_location, zipcode="", is_easy_apply=False):
         try:
             # Get all text lines, filtered for empty space
             all_lines = [l.strip() for l in element.text.split('\n') if l.strip()]
@@ -567,7 +567,7 @@ class JobExtractor(Search):
             # Database Save
             self.store.con.execute(
                  "INSERT OR REPLACE INTO extracted_jobs (id, job_id, url, title, company, location, date_extracted, candidate_id, is_easy_apply) VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?, ?)",
-                 [job_id, job_id, url, title, company, location, self.candidate_id, True]
+                 [job_id, job_id, url, title, company, location, self.candidate_id, is_easy_apply]
              )
             self.store.con.commit()
              
@@ -575,7 +575,7 @@ class JobExtractor(Search):
             if self.csv_path:
                 with open(self.csv_path, 'a', newline='', encoding='utf-8') as f:
                     writer = csv.writer(f, quoting=csv.QUOTE_NONNUMERIC)
-                    writer.writerow([job_id, title, company, location, zipcode, url, time.strftime('%Y-%m-%d %H:%M:%S'), True])
+                    writer.writerow([job_id, title, company, location, zipcode, url, time.strftime('%Y-%m-%d %H:%M:%S'), not is_easy_apply])
                 
             # API Save (Remote)
             job_data = {
@@ -584,7 +584,8 @@ class JobExtractor(Search):
                 'location': location,
                 'zipcode': zipcode,
                 'url': url,
-                'source_job_id': job_id
+                'source_job_id': job_id,
+                'is_easy_apply': is_easy_apply
             }
             if self.api_store:
                 # Accumulate in the shared api_store buffer (flushed once at end of full run)
