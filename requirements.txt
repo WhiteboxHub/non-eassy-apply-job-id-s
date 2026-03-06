@@ -10,3 +10,7 @@ beautifulsoup4
 mysql-connector-python
 selenium
 schedule
+
+
+
+

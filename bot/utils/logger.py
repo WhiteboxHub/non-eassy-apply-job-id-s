@@ -35,13 +35,29 @@ class StructuredLogger:
         self.logger.propagate = False
         
         if not self.logger.handlers:
-            handler = logging.StreamHandler(sys.stdout)
-            handler.setFormatter(StructuredFormatter())
-            self.logger.addHandler(handler)
+            # Console Handler
+            console_handler = logging.StreamHandler(sys.stdout)
+            console_handler.setFormatter(StructuredFormatter())
+            self.logger.addHandler(console_handler)
             
-            # File handler (optional, keeping existing behavior of logging to file)
-            # For simplicity matching previous main.py logic could be done here 
-            # or in main setup, but let's keep it clean here.
+            # File Handler (3-day rotation)
+            try:
+                from logging.handlers import TimedRotatingFileHandler
+                import os
+                
+                # Append to scheduler_log.txt
+                log_file = os.path.join(os.getcwd(), 'scheduler_log.txt')
+                file_handler = TimedRotatingFileHandler(
+                    log_file, 
+                    when='midnight', # Rotate at midnight
+                    interval=1,      # Every 1 day
+                    backupCount=3,   # Keep ONLY 3 days of backups, delete older ones
+                    encoding='utf-8'
+                )
+                file_handler.setFormatter(StructuredFormatter())
+                self.logger.addHandler(file_handler)
+            except Exception as e:
+                pass # Fallback to stdout only if file write fails
     
     def info(self, message, job_id=None, step=None, event=None, **kwargs):
         extra = {'job_id': job_id, 'step': step, 'event': event}

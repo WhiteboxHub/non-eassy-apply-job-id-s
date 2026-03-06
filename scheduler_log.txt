@@ -1,4 +1,4 @@
-[Thu 03/05/2026 15:31:27.70] Script started 
+[Fri 03/06/2026 11:18:47.42] Script started 
 Running python script... 
 ============================================================
 🔍 Running Startup Validation...
@@ -11,59 +11,620 @@ Running python script...
 ✅ Startup validation passed!
 ============================================================
 
-2026-03-05 15:31:29 INFO    message=✅ Selector sync complete: 19 selectors written to DuckDB (data/selectors.duckdb)
-2026-03-05 15:31:29 INFO    message=============================================================
-2026-03-05 15:31:29 INFO    message=Website Scheduler - Starting
-2026-03-05 15:31:29 INFO    message=============================================================
-2026-03-05 15:31:29 INFO    message=Loaded API token from local cache.
-2026-03-05 15:31:45 INFO    message=✅ Applied backend visibility & due-status workaround.
-2026-03-05 15:31:45 INFO    message=Checking website for due schedule...
-2026-03-05 15:31:45 INFO    message=Loaded API token from local cache.
-2026-03-05 15:32:02 INFO    message=Found schedule ID: 8
-2026-03-05 15:32:02 INFO    message=Next run at: 2026-03-05T13:31:34
-2026-03-05 15:32:02 INFO    message=Last run at: 2026-03-05T15:31:03
-2026-03-05 15:32:02 INFO    message=Loaded API token from local cache.
-2026-03-05 15:32:11 INFO    message=Locked schedule 8 in website.
-2026-03-05 15:32:11 INFO    message=Loaded API token from local cache.
-2026-03-05 15:32:14 INFO    message=Created log entry with ID: 107
-2026-03-05 15:32:14 INFO    message=============================================================
-2026-03-05 15:32:14 INFO    message=Running extraction...
-2026-03-05 15:32:14 INFO    message=============================================================
-2026-03-05 15:32:14 INFO    message=Loaded 1 active candidates from YAML.
-2026-03-05 15:32:14 INFO    message=Using search settings: Distance=50mi, Location=United States, Timespan=24h (r86400), DryRun=False
-2026-03-05 15:32:14 INFO    message=Loaded API token from local cache.
-2026-03-05 15:32:14 INFO    message=Initialized APIStore for: https://api.whitebox-learning.com/api/positions/
-2026-03-05 15:32:14 INFO    message=--- Processing Candidate: candidate_001 (psunil55433@gmail.com) ---
-2026-03-05 15:32:14 INFO    message=Keywords: ['Python', 'AI/ML Engineer', 'LLM Engineer']
-2026-03-05 15:32:14 INFO    message=Locations: None
-2026-03-05 15:32:14 INFO    message=Candidate candidate_001 has no locations. Using default: United States
-2026-03-05 15:32:14 INFO    message=Initializing browser for candidate_001...
-2026-03-05 15:32:14 INFO    message=Using absolute profile path: C:\Users\KUMAR-MINI-PC-7\non eassy\project-bot-non-easy-apply-job-extractor\data\profiles\candidate_001
-2026-03-05 15:32:16 INFO    message=Chrome initialized successfully with forced version 144
-2026-03-05 15:32:16 INFO    step=login event=start message=Checking login status...
-2026-03-05 15:34:18 INFO    step=login event=success message=Already logged in.
-2026-03-05 15:34:18 INFO    message=  --- Distance Bucket: 5 miles (Candidate Total: 0) ---
-2026-03-05 15:34:18 DEBUG   message=Cleanup: No jobs older than 3 days found.
-2026-03-05 15:34:18 INFO    message=Starting extraction for: United States at 5mi
-2026-03-05 15:34:18 INFO    step=extract_init message=Extracting jobs for Python: United States (Zipcode: United States)
-2026-03-05 15:34:18 INFO    message=📂 CSV file: C:\Users\KUMAR-MINI-PC-7\non eassy\project-bot-non-easy-apply-job-extractor\data\exports\extractor_job_links.csv
-2026-03-05 15:34:18 INFO    step=job_extract event=navigation message=Navigating to: https://www.linkedin.com/jobs/search/?keywords=%22Python%22&location=United States&f_TPR=r86400&start=0&f_D=5&distance=5&sortBy=DD&origin=JOB_SEARCH_PAGE_LOCATION_AUTOCOMPLETE&refresh=true
-2026-03-05 15:36:18 ERROR   message=Error processing location United States: HTTPConnectionPool(host='localhost', port=60784): Read timed out. (read timeout=120)
+2026-03-06 11:18:48 INFO    message=✅ Selector sync complete: 19 selectors written to DuckDB (data/selectors.duckdb)
+2026-03-06 11:18:48 INFO    message=============================================================
+2026-03-06 11:18:48 INFO    message=Website Scheduler - Starting
+2026-03-06 11:18:48 INFO    message=============================================================
+2026-03-06 11:18:48 INFO    message=Loaded API token from local cache.
+2026-03-06 11:18:50 INFO    message=✅ Applied backend visibility & due-status workaround.
+2026-03-06 11:18:50 INFO    message=Checking website for due schedule...
+2026-03-06 11:18:50 INFO    message=Loaded API token from local cache.
+2026-03-06 11:18:50 INFO    message=Found schedule ID: 8
+2026-03-06 11:18:50 INFO    message=Next run at: 2026-03-06T09:18:49
+2026-03-06 11:18:50 INFO    message=Last run at: 2026-03-06T08:40:55
+2026-03-06 11:18:50 INFO    message=Loaded API token from local cache.
+2026-03-06 11:18:51 INFO    message=Locked schedule 8 in website.
+2026-03-06 11:18:51 INFO    message=Loaded API token from local cache.
+2026-03-06 11:18:52 INFO    message=Created log entry with ID: 110
+2026-03-06 11:18:52 INFO    message=============================================================
+2026-03-06 11:18:52 INFO    message=Running extraction...
+2026-03-06 11:18:52 INFO    message=============================================================
+2026-03-06 11:18:52 INFO    message=Loaded 1 active candidates from YAML.
+2026-03-06 11:18:52 INFO    message=Using search settings: Distance=50mi, Location=United States, Timespan=24h (r86400), DryRun=False
+2026-03-06 11:18:52 INFO    message=Loaded API token from local cache.
+2026-03-06 11:18:52 INFO    message=Initialized APIStore for: https://api.whitebox-learning.com/api/positions/
+2026-03-06 11:18:52 INFO    message=--- Processing Candidate: candidate_001 (psunil55433@gmail.com) ---
+2026-03-06 11:18:52 INFO    message=Keywords: ['AI/ML Engineer', 'LLM Engineer']
+2026-03-06 11:18:52 INFO    message=Locations: None
+2026-03-06 11:18:52 INFO    message=Candidate candidate_001 has no locations. Using default: United States
+2026-03-06 11:18:52 INFO    message=Initializing browser for candidate_001...
+2026-03-06 11:18:52 INFO    message=Using absolute profile path: C:\Users\KUMAR-MINI-PC-7\non eassy\project-bot-non-easy-apply-job-extractor\data\profiles\candidate_001
+2026-03-06 11:18:53 INFO    message=Chrome initialized successfully with forced version 144
+2026-03-06 11:18:53 INFO    step=login event=start message=Checking login status...
+2026-03-06 11:19:01 INFO    step=login event=success message=Already logged in.
+2026-03-06 11:19:01 INFO    message=  --- Distance Bucket: 5 miles (Candidate Total: 0) ---
+2026-03-06 11:19:01 DEBUG   message=Cleanup: No jobs older than 3 days found.
+2026-03-06 11:19:01 INFO    message=Starting extraction for: United States at 5mi
+2026-03-06 11:19:01 INFO    step=extract_init message=Extracting jobs for LLM Engineer: United States (Zipcode: United States)
+2026-03-06 11:19:01 INFO    message=📂 CSV file: C:\Users\KUMAR-MINI-PC-7\non eassy\project-bot-non-easy-apply-job-extractor\data\exports\extractor_job_links.csv
+2026-03-06 11:19:01 INFO    step=job_extract event=navigation message=Navigating to: https://www.linkedin.com/jobs/search/?keywords=%22LLM Engineer%22&location=United States&f_TPR=r86400&start=0&f_D=5&distance=5&sortBy=DD&origin=JOB_SEARCH_PAGE_LOCATION_AUTOCOMPLETE&refresh=true
+2026-03-06 11:19:11 INFO    step=job_extract message=Page 1 | 59.0m left
+2026-03-06 11:19:13 INFO    step=job_extract message=Starting scroll routine...
+2026-03-06 11:19:17 INFO    step=job_extract message=✅ Scrolling complete. Found 17 job cards to inspect.
+2026-03-06 11:19:18 INFO    message=🔍 Job Check: ID=4381049902 | Text=Senior LLM Engineer (Volunteer)- Remote | Senior LLM Engineer (Volunteer)- Remote | Health4TheWorld Inc | 
+2026-03-06 11:19:18 INFO    message=🚫 Skipping EASY APPLY job: 4381049902
+2026-03-06 11:19:18 INFO    message=🔍 Job Check: ID=search | Text=Artificial Intelligence Engineer | Newgen Software | Gurugram, Haryana, India (On-site) | Actively reviewi
+2026-03-06 11:19:18 INFO    message=🚫 Skipping EASY APPLY job: search
+2026-03-06 11:19:18 INFO    message=🔍 Job Check: ID=None | Text=Actively reviewing applicants
+2026-03-06 11:19:18 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:19:18 INFO    message=🔍 Job Check: ID=search | Text=Generative AI Engineer | HCLTech | Bengaluru, Karnataka, India (Hybrid) | Actively reviewing applicants | Pr
+2026-03-06 11:19:18 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:19:18 INFO    message=🔍 Job Check: ID=None | Text=Actively reviewing applicants
+2026-03-06 11:19:18 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:19:18 INFO    message=🔍 Job Check: ID=search | Text=Artificial Intelligence Engineer | HGS | Bengaluru, Karnataka, India (On-site) | Actively reviewing applic
+2026-03-06 11:19:18 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:19:19 INFO    message=🔍 Job Check: ID=None | Text=Actively reviewing applicants
+2026-03-06 11:19:19 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:19:19 INFO    message=🔍 Job Check: ID=search | Text=AI/ML Engineer | BayOne Solutions | India (Remote) | Promoted | Easy Apply
+2026-03-06 11:19:19 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:19:19 INFO    message=🔍 Job Check: ID=search | Text=Artificial Intelligence Engineer | Newgen Software | Gurugram, Haryana, India (On-site) | Actively reviewi
+2026-03-06 11:19:19 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:19:19 INFO    message=🔍 Job Check: ID=None | Text=Actively reviewing applicants
+2026-03-06 11:19:19 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:19:19 INFO    message=🔍 Job Check: ID=search | Text=AI Engineer | Deutsche Telekom Digital Labs | Gurugram, Haryana, India (On-site) | Promoted | Easy Apply
+2026-03-06 11:19:19 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:19:19 INFO    message=🔍 Job Check: ID=search | Text=FullStack Engineer - II (Remote) | PriceLabs | Bengaluru, Karnataka, India (Remote) | 18 hours ago | Within 
+2026-03-06 11:19:19 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:19:19 INFO    message=🔍 Job Check: ID=search | Text=HR Manager | Lexsi Labs | Mumbai Metropolitan Region (Remote) | 4 hours ago | Within the past 24 hours
+2026-03-06 11:19:19 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:19:19 INFO    message=🔍 Job Check: ID=search | Text=Senior Specialist, Policy New Delhi, India (12 Month Fixed Term Contract) | Principles for Responsible
+2026-03-06 11:19:19 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:19:19 INFO    message=🔍 Job Check: ID=search | Text=Machine Learning Engineer | Cubiq Recruitment | San Francisco Bay Area (On-site) | $200K/yr - $400K/yr | 2 d
+2026-03-06 11:19:19 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:19:19 INFO    message=🔍 Job Check: ID=search | Text=AI/ML Engineer- Generative AI | LTM | Irving, TX (Hybrid) | $79.9K/yr - $107.7K/yr · 5 benefits | 1 week ago
+2026-03-06 11:19:19 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:19:19 INFO    message=🔍 Job Check: ID=search | Text=Software AI Engineer | micro1 | United States (Remote) | 8 hours ago | Within the past 24 hours
+2026-03-06 11:19:19 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:19:20 INFO    message=🔍 Job Check: ID=4381049902 | Text=Senior LLM Engineer (Volunteer)- Remote | Senior LLM Engineer (Volunteer)- Remote | Health4TheWorld Inc | 
+2026-03-06 11:19:20 INFO    message=⏭️ Skipping 4381049902 - already processed on this page
+2026-03-06 11:19:20 INFO    message=🔍 Job Check: ID=search | Text=Artificial Intelligence Engineer | Newgen Software | Gurugram, Haryana, India (On-site) | Actively reviewi
+2026-03-06 11:19:20 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:19:20 INFO    message=🔍 Job Check: ID=None | Text=Actively reviewing applicants
+2026-03-06 11:19:20 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:19:20 INFO    message=🔍 Job Check: ID=search | Text=Generative AI Engineer | HCLTech | Bengaluru, Karnataka, India (Hybrid) | Actively reviewing applicants | Pr
+2026-03-06 11:19:20 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:19:20 INFO    message=🔍 Job Check: ID=None | Text=Actively reviewing applicants
+2026-03-06 11:19:20 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:19:20 INFO    message=🔍 Job Check: ID=search | Text=Artificial Intelligence Engineer | HGS | Bengaluru, Karnataka, India (On-site) | Actively reviewing applic
+2026-03-06 11:19:20 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:19:20 INFO    message=🔍 Job Check: ID=None | Text=Actively reviewing applicants
+2026-03-06 11:19:20 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:19:20 INFO    message=🔍 Job Check: ID=search | Text=AI/ML Engineer | BayOne Solutions | India (Remote) | Promoted | Easy Apply
+2026-03-06 11:19:20 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:19:20 INFO    message=🔍 Job Check: ID=search | Text=Artificial Intelligence Engineer | Newgen Software | Gurugram, Haryana, India (On-site) | Actively reviewi
+2026-03-06 11:19:20 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:19:20 INFO    message=🔍 Job Check: ID=None | Text=Actively reviewing applicants
+2026-03-06 11:19:20 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:19:20 INFO    message=🔍 Job Check: ID=search | Text=AI Engineer | Deutsche Telekom Digital Labs | Gurugram, Haryana, India (On-site) | Promoted | Easy Apply
+2026-03-06 11:19:20 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:19:20 INFO    message=🔍 Job Check: ID=search | Text=FullStack Engineer - II (Remote) | PriceLabs | Bengaluru, Karnataka, India (Remote) | 18 hours ago | Within 
+2026-03-06 11:19:20 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:19:20 INFO    message=🔍 Job Check: ID=search | Text=HR Manager | Lexsi Labs | Mumbai Metropolitan Region (Remote) | 4 hours ago | Within the past 24 hours
+2026-03-06 11:19:20 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:19:20 INFO    message=🔍 Job Check: ID=search | Text=Senior Specialist, Policy New Delhi, India (12 Month Fixed Term Contract) | Principles for Responsible
+2026-03-06 11:19:20 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:19:20 INFO    message=🔍 Job Check: ID=search | Text=Machine Learning Engineer | Cubiq Recruitment | San Francisco Bay Area (On-site) | $200K/yr - $400K/yr | 2 d
+2026-03-06 11:19:20 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:19:20 INFO    message=🔍 Job Check: ID=search | Text=AI/ML Engineer- Generative AI | LTM | Irving, TX (Hybrid) | $79.9K/yr - $107.7K/yr · 5 benefits | 1 week ago
+2026-03-06 11:19:20 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:19:20 INFO    message=🔍 Job Check: ID=search | Text=Software AI Engineer | micro1 | United States (Remote) | 8 hours ago | Within the past 24 hours
+2026-03-06 11:19:20 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:19:20 INFO    step=job_extract message=Finished Page 1: 0 NEW links saved. Total so far: 0/9999
+2026-03-06 11:19:20 INFO    step=job_extract message=📥 Buffer now holds 0 jobs total (flush at end of run)
+2026-03-06 11:19:20 INFO    step=job_extract message=Next button not found, using URL pagination...
+2026-03-06 11:19:20 INFO    step=job_extract event=navigation message=Navigating to: https://www.linkedin.com/jobs/search/?keywords=%22LLM Engineer%22&location=United States&f_TPR=r86400&start=25&f_D=5&distance=5&sortBy=DD&origin=JOB_SEARCH_PAGE_LOCATION_AUTOCOMPLETE&refresh=true
+2026-03-06 11:19:31 INFO    step=job_extract message=Page 2 | 59.0m left
+2026-03-06 11:19:31 INFO    step=job_extract event=no_results message=No more jobs found for this search.
+2026-03-06 11:19:31 INFO    step=extract_init message=Extracting jobs for AI/ML Engineer: United States (Zipcode: United States)
+2026-03-06 11:19:31 INFO    message=📂 CSV file: C:\Users\KUMAR-MINI-PC-7\non eassy\project-bot-non-easy-apply-job-extractor\data\exports\extractor_job_links.csv
+2026-03-06 11:19:31 INFO    step=job_extract event=navigation message=Navigating to: https://www.linkedin.com/jobs/search/?keywords=%22AI/ML Engineer%22&location=United States&f_TPR=r86400&start=0&f_D=5&distance=5&sortBy=DD&origin=JOB_SEARCH_PAGE_LOCATION_AUTOCOMPLETE&refresh=true
+2026-03-06 11:19:41 INFO    step=job_extract message=Page 1 | 59.0m left
+2026-03-06 11:19:43 INFO    step=job_extract message=Starting scroll routine...
+2026-03-06 11:19:47 INFO    step=job_extract message=✅ Scrolling complete. Found 12 job cards to inspect.
+2026-03-06 11:19:48 INFO    message=🔍 Job Check: ID=4381065164 | Text=Senior AI/ML Engineer | Senior AI/ML Engineer | Jobs via Dice | Plano, TX (On-site) | Viewed
+
+[ATS DEBUG] ─────────────────────────────────────────
+[ATS DEBUG] Job ID   : 4381065164
+[ATS DEBUG] Job Title: senior ai/ml engineer
+[ATS DEBUG] Searching for Apply button (primary selector)...
+[ATS DEBUG] Details pane not found, searching globally (primary)...
+[ATS DEBUG] Primary selector found: 0 element(s)
+2026-03-06 11:19:54 INFO    step=extract_job message=🔍 Primary apply selector found nothing. Trying fallback...
+[ATS DEBUG] Trying fallback selector...
+[ATS DEBUG] Fallback selector found: 2 element(s)
+[ATS DEBUG] → CASE 3: No href — will CLICK the button
+2026-03-06 11:19:54 INFO    step=extract_job message=🖱️ Clicking 'Apply' button to capture ATS link...
+[ATS DEBUG]   Original URL: https://www.linkedin.com/jobs/search/?currentJobId=4381065164&distance=5&f_TPR=r86400&keywords=%22AI%2FML%20Engineer%22&location=United%20States&origin=JOB_SEARCH_PAGE_LOCATION_AUTOCOMPLETE&refresh=true&sortBy=DD
+[ATS DEBUG]   --- Click Attempt on button 1/2 ---
+[ATS DEBUG]   Method A: Javascript click...
+[ATS DEBUG]   Method B: Native Selenium click...
+2026-03-06 11:20:02 INFO    step=extract_job message=✨ Captured ATS link (new tab): https://www.dice.com/job-detail/569fa6a5-d56e-4696-abcb-d656...
+[ATS DEBUG]   ✅ SUCCESS (Native New Tab): https://www.dice.com/job-detail/569fa6a5-d56e-4696-abcb-d6560c6922e1?utm_source=appcast&utm_medium=aggregator&utm_campaign=linkedin-dice-paid&utm_term=Raas%20Infotek%20LLC&utm_content=src-consulting_slots&ccuid=69655204625&_ccid=1772557338949hkluyhvc3
+[ATS DEBUG] Final URL saved: https://www.dice.com/job-detail/569fa6a5-d56e-4696-abcb-d6560c6922e1?utm_source=appcast&utm_medium=aggregator&utm_campaign=linkedin-dice-paid&utm_term=Raas%20Infotek%20LLC&utm_content=src-consulting_slots&ccuid=69655204625&_ccid=1772557338949hkluyhvc3
+[ATS DEBUG] ─────────────────────────────────────────
+
+2026-03-06 11:20:03 INFO    step=extract_job message=📥 Queued for bulk insert (buffer size: 1)
+2026-03-06 11:20:03 INFO    step=extract_job message=Saved job: senior ai/ml engineer at jobs via dice (plano, tx (on-site)) - Zipcode: united states
+2026-03-06 11:20:03 INFO    message=🔍 Job Check: ID=4380299506 | Text=AI/ML Engineer - Drug Discovery | AI/ML Engineer - Drug Discovery with verification | Pinnacle Medicines
+2026-03-06 11:20:03 INFO    message=🚫 Skipping EASY APPLY job: 4380299506
+2026-03-06 11:20:03 INFO    message=🔍 Job Check: ID=None | Text=Company review time is typically 1 week
+2026-03-06 11:20:03 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:20:03 INFO    message=🔍 Job Check: ID=4381492793 | Text=Senior AI/ML Engineer | Senior AI/ML Engineer with verification | TekVizor | New York City Metropolitan Ar
+2026-03-06 11:20:03 INFO    message=🚫 Skipping EASY APPLY job: 4381492793
+2026-03-06 11:20:03 INFO    message=🔍 Job Check: ID=None | Text=Company review time is typically 1 week
+2026-03-06 11:20:03 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:20:03 INFO    message=🔍 Job Check: ID=4381048696 | Text=Junior AI/ML Engineer | Junior AI/ML Engineer | Flexon Technologies Talent360.ai | Pleasanton, CA (On-site
+2026-03-06 11:20:03 INFO    message=🚫 Skipping EASY APPLY job: 4381048696
+2026-03-06 11:20:03 INFO    message=🔍 Job Check: ID=4381049463 | Text=Contract on W2 :: AI/ML Engineer (Copilot or Python Coding) ::Alpharetta, GA / NYC, NY | Contract on W
+2026-03-06 11:20:03 INFO    message=🚫 Skipping EASY APPLY job: 4381049463
+2026-03-06 11:20:03 INFO    message=🔍 Job Check: ID=None | Text=Company review time is typically 1 week
+2026-03-06 11:20:03 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:20:03 INFO    message=🔍 Job Check: ID=4382127163 | Text=Senior AI/ML Engineer (On-Site): $250K+ | Senior AI/ML Engineer (On-Site): $250K+ with verification | IC
+2026-03-06 11:20:03 INFO    message=🚫 Skipping EASY APPLY job: 4382127163
+2026-03-06 11:20:03 INFO    message=🔍 Job Check: ID=None | Text=Company review time is typically 1 week
+2026-03-06 11:20:03 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:20:03 INFO    message=🔍 Job Check: ID=4381049168 | Text=AI/ML Engineer | AI/ML Engineer with verification | Tekgence Inc | Alpharetta, GA (On-site) | Company review
+2026-03-06 11:20:03 INFO    message=🚫 Skipping EASY APPLY job: 4381049168
+2026-03-06 11:20:03 INFO    message=🔍 Job Check: ID=None | Text=Company review time is typically 1 week
+2026-03-06 11:20:03 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:20:04 INFO    message=🔍 Job Check: ID=4381065164 | Text=Senior AI/ML Engineer | Senior AI/ML Engineer | Jobs via Dice | Plano, TX (On-site) | Viewed
+2026-03-06 11:20:04 INFO    message=⏭️ Skipping 4381065164 - already processed on this page
+2026-03-06 11:20:04 INFO    message=🔍 Job Check: ID=4380299506 | Text=AI/ML Engineer - Drug Discovery | AI/ML Engineer - Drug Discovery with verification | Pinnacle Medicines
+2026-03-06 11:20:04 INFO    message=⏭️ Skipping 4380299506 - already processed on this page
+2026-03-06 11:20:04 INFO    message=🔍 Job Check: ID=None | Text=Company review time is typically 1 week
+2026-03-06 11:20:04 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:20:04 INFO    message=🔍 Job Check: ID=4381492793 | Text=Senior AI/ML Engineer | Senior AI/ML Engineer with verification | TekVizor | New York City Metropolitan Ar
+2026-03-06 11:20:04 INFO    message=⏭️ Skipping 4381492793 - already processed on this page
+2026-03-06 11:20:04 INFO    message=🔍 Job Check: ID=None | Text=Company review time is typically 1 week
+2026-03-06 11:20:04 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:20:04 INFO    message=🔍 Job Check: ID=4381048696 | Text=Junior AI/ML Engineer | Junior AI/ML Engineer | Flexon Technologies Talent360.ai | Pleasanton, CA (On-site
+2026-03-06 11:20:04 INFO    message=⏭️ Skipping 4381048696 - already processed on this page
+2026-03-06 11:20:04 INFO    message=🔍 Job Check: ID=4381049463 | Text=Contract on W2 :: AI/ML Engineer (Copilot or Python Coding) ::Alpharetta, GA / NYC, NY | Contract on W
+2026-03-06 11:20:04 INFO    message=⏭️ Skipping 4381049463 - already processed on this page
+2026-03-06 11:20:04 INFO    message=🔍 Job Check: ID=None | Text=Company review time is typically 1 week
+2026-03-06 11:20:04 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:20:04 INFO    message=🔍 Job Check: ID=4382127163 | Text=Senior AI/ML Engineer (On-Site): $250K+ | Senior AI/ML Engineer (On-Site): $250K+ with verification | IC
+2026-03-06 11:20:04 INFO    message=⏭️ Skipping 4382127163 - already processed on this page
+2026-03-06 11:20:04 INFO    message=🔍 Job Check: ID=None | Text=Company review time is typically 1 week
+2026-03-06 11:20:04 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:20:04 INFO    message=🔍 Job Check: ID=4381049168 | Text=AI/ML Engineer | AI/ML Engineer with verification | Tekgence Inc | Alpharetta, GA (On-site) | Company review
+2026-03-06 11:20:04 INFO    message=⏭️ Skipping 4381049168 - already processed on this page
+2026-03-06 11:20:04 INFO    message=🔍 Job Check: ID=None | Text=Company review time is typically 1 week
+2026-03-06 11:20:04 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:20:04 INFO    step=job_extract message=Finished Page 1: 1 NEW links saved. Total so far: 1/9999
+2026-03-06 11:20:04 INFO    step=job_extract message=📥 Buffer now holds 1 jobs total (flush at end of run)
+2026-03-06 11:20:04 INFO    step=job_extract message=Clicking NEXT button...
+2026-03-06 11:20:10 INFO    step=job_extract message=Page 2 | 59.0m left
+2026-03-06 11:20:12 INFO    step=job_extract message=Starting scroll routine...
+2026-03-06 11:20:16 INFO    step=job_extract message=✅ Scrolling complete. Found 7 job cards to inspect.
+2026-03-06 11:20:17 INFO    message=🔍 Job Check: ID=4381018150 | Text=AI & ML Engineer | AI & ML Engineer | Jobs via Dice | McLean, VA (Hybrid) | $77.6K/yr - $176K/yr · 1 benefit
+2026-03-06 11:20:17 INFO    message=⏭️ Skipping 4381018150 - already seen (duplicate)
+2026-03-06 11:20:17 INFO    message=🔍 Job Check: ID=4381972213 | Text=AI/ML Engineer | AI/ML Engineer | micro1 | Washington, DC (Hybrid) | Viewed
+2026-03-06 11:20:17 INFO    message=⏭️ Skipping 4381972213 - already seen (duplicate)
+2026-03-06 11:20:17 INFO    message=🔍 Job Check: ID=4365341927 | Text=Generative AI/ML Engineer | Generative AI/ML Engineer with verification | Booz Allen Hamilton | Bethesda, 
+2026-03-06 11:20:17 INFO    message=⏭️ Skipping 4365341927 - already seen (duplicate)
+2026-03-06 11:20:17 INFO    message=🔍 Job Check: ID=4380641462 | Text=AI and ML Engineer | AI and ML Engineer | Jobs via Dice | Offutt Air Force Base, NE (On-site) | $99K/yr - $2
+2026-03-06 11:20:17 INFO    message=⏭️ Skipping 4380641462 - already seen (duplicate)
+2026-03-06 11:20:17 INFO    message=🔍 Job Check: ID=4380211691 | Text=AI/ML Engineer - Systems | AI/ML Engineer - Systems with verification | KLA | Ann Arbor, MI | $105.9K/yr - $
+2026-03-06 11:20:17 INFO    message=⏭️ Skipping 4380211691 - already seen (duplicate)
+2026-03-06 11:20:17 INFO    message=🔍 Job Check: ID=4381901835 | Text=AI & ML Engineer | AI & ML Engineer with verification | Booz Allen Hamilton | McLean, VA (Hybrid) | $77.6K/y
+2026-03-06 11:20:17 INFO    message=⏭️ Skipping 4381901835 - already seen (duplicate)
+2026-03-06 11:20:17 INFO    message=🔍 Job Check: ID=4381914060 | Text=Junior AI/ML Engineer (Remote) | Junior AI/ML Engineer (Remote) with verification | Lensa | Boston, MA (Re
+2026-03-06 11:20:17 INFO    message=⏭️ Skipping 4381914060 - already seen (duplicate)
+2026-03-06 11:20:17 INFO    step=job_extract message=Finished Page 2: 0 NEW links saved. Total so far: 1/9999
+2026-03-06 11:20:17 INFO    step=job_extract message=📥 Buffer now holds 1 jobs total (flush at end of run)
+2026-03-06 11:20:17 INFO    step=job_extract message=Next button not found, using URL pagination...
+2026-03-06 11:20:17 INFO    step=job_extract event=navigation message=Navigating to: https://www.linkedin.com/jobs/search/?keywords=%22AI/ML Engineer%22&location=United States&f_TPR=r86400&start=50&f_D=5&distance=5&sortBy=DD&origin=JOB_SEARCH_PAGE_LOCATION_AUTOCOMPLETE&refresh=true
+2026-03-06 11:20:27 INFO    step=job_extract message=Page 3 | 59.0m left
+2026-03-06 11:20:27 INFO    step=job_extract event=no_results message=No more jobs found for this search.
+2026-03-06 11:20:27 INFO    message=  --- Distance Bucket: 10 miles (Candidate Total: 1) ---
+2026-03-06 11:20:27 DEBUG   message=Cleanup: No jobs older than 3 days found.
+2026-03-06 11:20:27 INFO    message=Starting extraction for: United States at 10mi
+2026-03-06 11:20:27 INFO    step=extract_init message=Extracting jobs for AI/ML Engineer: United States (Zipcode: United States)
+2026-03-06 11:20:27 INFO    message=📂 CSV file: C:\Users\KUMAR-MINI-PC-7\non eassy\project-bot-non-easy-apply-job-extractor\data\exports\extractor_job_links.csv
+2026-03-06 11:20:27 INFO    step=job_extract event=navigation message=Navigating to: https://www.linkedin.com/jobs/search/?keywords=%22AI/ML Engineer%22&location=United States&f_TPR=r86400&start=0&f_D=10&distance=10&sortBy=DD&origin=JOB_SEARCH_PAGE_LOCATION_AUTOCOMPLETE&refresh=true
+2026-03-06 11:20:37 INFO    step=job_extract message=Page 1 | 59.0m left
+2026-03-06 11:20:39 INFO    step=job_extract message=Starting scroll routine...
+2026-03-06 11:20:43 INFO    step=job_extract message=✅ Scrolling complete. Found 12 job cards to inspect.
+2026-03-06 11:20:44 INFO    message=🔍 Job Check: ID=4381065164 | Text=Senior AI/ML Engineer | Senior AI/ML Engineer | Jobs via Dice | Plano, TX (On-site) | Viewed
+2026-03-06 11:20:44 INFO    message=⏭️ Skipping 4381065164 - already seen (duplicate)
+2026-03-06 11:20:44 INFO    message=🔍 Job Check: ID=4380299506 | Text=AI/ML Engineer - Drug Discovery | AI/ML Engineer - Drug Discovery with verification | Pinnacle Medicines
+2026-03-06 11:20:44 INFO    message=🚫 Skipping EASY APPLY job: 4380299506
+2026-03-06 11:20:44 INFO    message=🔍 Job Check: ID=None | Text=Company review time is typically 1 week
+2026-03-06 11:20:44 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:20:44 INFO    message=🔍 Job Check: ID=4381492793 | Text=Senior AI/ML Engineer | Senior AI/ML Engineer with verification | TekVizor | New York City Metropolitan Ar
+2026-03-06 11:20:44 INFO    message=🚫 Skipping EASY APPLY job: 4381492793
+2026-03-06 11:20:44 INFO    message=🔍 Job Check: ID=None | Text=Company review time is typically 1 week
+2026-03-06 11:20:44 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:20:44 INFO    message=🔍 Job Check: ID=4381048696 | Text=Junior AI/ML Engineer | Junior AI/ML Engineer | Flexon Technologies Talent360.ai | Pleasanton, CA (On-site
+2026-03-06 11:20:44 INFO    message=🚫 Skipping EASY APPLY job: 4381048696
+2026-03-06 11:20:45 INFO    message=🔍 Job Check: ID=4381049463 | Text=Contract on W2 :: AI/ML Engineer (Copilot or Python Coding) ::Alpharetta, GA / NYC, NY | Contract on W
+2026-03-06 11:20:45 INFO    message=🚫 Skipping EASY APPLY job: 4381049463
+2026-03-06 11:20:45 INFO    message=🔍 Job Check: ID=None | Text=Company review time is typically 1 week
+2026-03-06 11:20:45 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:20:45 INFO    message=🔍 Job Check: ID=4382127163 | Text=Senior AI/ML Engineer (On-Site): $250K+ | Senior AI/ML Engineer (On-Site): $250K+ with verification | IC
+2026-03-06 11:20:45 INFO    message=🚫 Skipping EASY APPLY job: 4382127163
+2026-03-06 11:20:45 INFO    message=🔍 Job Check: ID=None | Text=Company review time is typically 1 week
+2026-03-06 11:20:45 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:20:45 INFO    message=🔍 Job Check: ID=4381049168 | Text=AI/ML Engineer | AI/ML Engineer with verification | Tekgence Inc | Alpharetta, GA (On-site) | Company review
+2026-03-06 11:20:45 INFO    message=🚫 Skipping EASY APPLY job: 4381049168
+2026-03-06 11:20:45 INFO    message=🔍 Job Check: ID=None | Text=Company review time is typically 1 week
+2026-03-06 11:20:45 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:20:45 INFO    message=🔍 Job Check: ID=4381065164 | Text=Senior AI/ML Engineer | Senior AI/ML Engineer | Jobs via Dice | Plano, TX (On-site) | Viewed
+2026-03-06 11:20:45 INFO    message=⏭️ Skipping 4381065164 - already seen (duplicate)
+2026-03-06 11:20:45 INFO    message=🔍 Job Check: ID=4380299506 | Text=AI/ML Engineer - Drug Discovery | AI/ML Engineer - Drug Discovery with verification | Pinnacle Medicines
+2026-03-06 11:20:45 INFO    message=⏭️ Skipping 4380299506 - already processed on this page
+2026-03-06 11:20:46 INFO    message=🔍 Job Check: ID=None | Text=Company review time is typically 1 week
+2026-03-06 11:20:46 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:20:46 INFO    message=🔍 Job Check: ID=4381492793 | Text=Senior AI/ML Engineer | Senior AI/ML Engineer with verification | TekVizor | New York City Metropolitan Ar
+2026-03-06 11:20:46 INFO    message=⏭️ Skipping 4381492793 - already processed on this page
+2026-03-06 11:20:46 INFO    message=🔍 Job Check: ID=None | Text=Company review time is typically 1 week
+2026-03-06 11:20:46 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:20:46 INFO    message=🔍 Job Check: ID=4381048696 | Text=Junior AI/ML Engineer | Junior AI/ML Engineer | Flexon Technologies Talent360.ai | Pleasanton, CA (On-site
+2026-03-06 11:20:46 INFO    message=⏭️ Skipping 4381048696 - already processed on this page
+2026-03-06 11:20:46 INFO    message=🔍 Job Check: ID=4381049463 | Text=Contract on W2 :: AI/ML Engineer (Copilot or Python Coding) ::Alpharetta, GA / NYC, NY | Contract on W
+2026-03-06 11:20:46 INFO    message=⏭️ Skipping 4381049463 - already processed on this page
+2026-03-06 11:20:46 INFO    message=🔍 Job Check: ID=None | Text=Company review time is typically 1 week
+2026-03-06 11:20:46 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:20:46 INFO    message=🔍 Job Check: ID=4382127163 | Text=Senior AI/ML Engineer (On-Site): $250K+ | Senior AI/ML Engineer (On-Site): $250K+ with verification | IC
+2026-03-06 11:20:46 INFO    message=⏭️ Skipping 4382127163 - already processed on this page
+2026-03-06 11:20:46 INFO    message=🔍 Job Check: ID=None | Text=Company review time is typically 1 week
+2026-03-06 11:20:46 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:20:46 INFO    message=🔍 Job Check: ID=4381049168 | Text=AI/ML Engineer | AI/ML Engineer with verification | Tekgence Inc | Alpharetta, GA (On-site) | Company review
+2026-03-06 11:20:46 INFO    message=⏭️ Skipping 4381049168 - already processed on this page
+2026-03-06 11:20:46 INFO    message=🔍 Job Check: ID=None | Text=Company review time is typically 1 week
+2026-03-06 11:20:46 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:20:46 INFO    step=job_extract message=Finished Page 1: 0 NEW links saved. Total so far: 0/9999
+2026-03-06 11:20:46 INFO    step=job_extract message=📥 Buffer now holds 1 jobs total (flush at end of run)
+2026-03-06 11:20:46 INFO    step=job_extract message=Clicking NEXT button...
+2026-03-06 11:20:51 INFO    step=job_extract message=Page 2 | 59.0m left
+2026-03-06 11:20:53 INFO    step=job_extract message=Starting scroll routine...
+2026-03-06 11:20:57 INFO    step=job_extract message=✅ Scrolling complete. Found 7 job cards to inspect.
+2026-03-06 11:20:58 INFO    message=🔍 Job Check: ID=4381018150 | Text=AI & ML Engineer | AI & ML Engineer | Jobs via Dice | McLean, VA (Hybrid) | $77.6K/yr - $176K/yr · 1 benefit
+2026-03-06 11:20:58 INFO    message=⏭️ Skipping 4381018150 - already seen (duplicate)
+2026-03-06 11:20:58 INFO    message=🔍 Job Check: ID=4381972213 | Text=AI/ML Engineer | AI/ML Engineer | micro1 | Washington, DC (Hybrid) | Viewed
+2026-03-06 11:20:58 INFO    message=⏭️ Skipping 4381972213 - already seen (duplicate)
+2026-03-06 11:20:58 INFO    message=🔍 Job Check: ID=4365341927 | Text=Generative AI/ML Engineer | Generative AI/ML Engineer with verification | Booz Allen Hamilton | Bethesda, 
+2026-03-06 11:20:58 INFO    message=⏭️ Skipping 4365341927 - already seen (duplicate)
+2026-03-06 11:20:58 INFO    message=🔍 Job Check: ID=4380641462 | Text=AI and ML Engineer | AI and ML Engineer | Jobs via Dice | Offutt Air Force Base, NE (On-site) | $99K/yr - $2
+2026-03-06 11:20:58 INFO    message=⏭️ Skipping 4380641462 - already seen (duplicate)
+2026-03-06 11:20:58 INFO    message=🔍 Job Check: ID=4380211691 | Text=AI/ML Engineer - Systems | AI/ML Engineer - Systems with verification | KLA | Ann Arbor, MI | $105.9K/yr - $
+2026-03-06 11:20:58 INFO    message=⏭️ Skipping 4380211691 - already seen (duplicate)
+2026-03-06 11:20:58 INFO    message=🔍 Job Check: ID=4381901835 | Text=AI & ML Engineer | AI & ML Engineer with verification | Booz Allen Hamilton | McLean, VA (Hybrid) | $77.6K/y
+2026-03-06 11:20:58 INFO    message=⏭️ Skipping 4381901835 - already seen (duplicate)
+2026-03-06 11:20:58 INFO    message=🔍 Job Check: ID=4381914060 | Text=Junior AI/ML Engineer (Remote) | Junior AI/ML Engineer (Remote) with verification | Lensa | Boston, MA (Re
+2026-03-06 11:20:58 INFO    message=⏭️ Skipping 4381914060 - already seen (duplicate)
+2026-03-06 11:20:58 INFO    step=job_extract message=Finished Page 2: 0 NEW links saved. Total so far: 0/9999
+2026-03-06 11:20:58 INFO    step=job_extract message=📥 Buffer now holds 1 jobs total (flush at end of run)
+2026-03-06 11:20:58 INFO    step=job_extract message=Next button not found, using URL pagination...
+2026-03-06 11:20:58 INFO    step=job_extract event=navigation message=Navigating to: https://www.linkedin.com/jobs/search/?keywords=%22AI/ML Engineer%22&location=United States&f_TPR=r86400&start=50&f_D=10&distance=10&sortBy=DD&origin=JOB_SEARCH_PAGE_LOCATION_AUTOCOMPLETE&refresh=true
+2026-03-06 11:21:08 INFO    step=job_extract message=Page 3 | 59.0m left
+2026-03-06 11:21:08 INFO    step=job_extract event=no_results message=No more jobs found for this search.
+2026-03-06 11:21:08 INFO    step=extract_init message=Extracting jobs for LLM Engineer: United States (Zipcode: United States)
+2026-03-06 11:21:08 INFO    message=📂 CSV file: C:\Users\KUMAR-MINI-PC-7\non eassy\project-bot-non-easy-apply-job-extractor\data\exports\extractor_job_links.csv
+2026-03-06 11:21:08 INFO    step=job_extract event=navigation message=Navigating to: https://www.linkedin.com/jobs/search/?keywords=%22LLM Engineer%22&location=United States&f_TPR=r86400&start=0&f_D=10&distance=10&sortBy=DD&origin=JOB_SEARCH_PAGE_LOCATION_AUTOCOMPLETE&refresh=true
+2026-03-06 11:21:19 INFO    step=job_extract message=Page 1 | 59.0m left
+2026-03-06 11:21:21 INFO    step=job_extract message=Starting scroll routine...
+2026-03-06 11:21:24 INFO    step=job_extract message=✅ Scrolling complete. Found 17 job cards to inspect.
+2026-03-06 11:21:25 INFO    message=🔍 Job Check: ID=4381049902 | Text=Senior LLM Engineer (Volunteer)- Remote | Senior LLM Engineer (Volunteer)- Remote | Health4TheWorld Inc | 
+2026-03-06 11:21:25 INFO    message=🚫 Skipping EASY APPLY job: 4381049902
+2026-03-06 11:21:25 INFO    message=🔍 Job Check: ID=search | Text=Artificial Intelligence Engineer | Newgen Software | Gurugram, Haryana, India (On-site) | Actively reviewi
+2026-03-06 11:21:25 INFO    message=🚫 Skipping EASY APPLY job: search
+2026-03-06 11:21:26 INFO    message=🔍 Job Check: ID=None | Text=Actively reviewing applicants
+2026-03-06 11:21:26 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:21:26 INFO    message=🔍 Job Check: ID=search | Text=Generative AI Engineer | HCLTech | Bengaluru, Karnataka, India (Hybrid) | Actively reviewing applicants | Pr
+2026-03-06 11:21:26 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:21:26 INFO    message=🔍 Job Check: ID=None | Text=Actively reviewing applicants
+2026-03-06 11:21:26 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:21:26 INFO    message=🔍 Job Check: ID=search | Text=Artificial Intelligence Engineer | HGS | Bengaluru, Karnataka, India (On-site) | Actively reviewing applic
+2026-03-06 11:21:26 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:21:26 INFO    message=🔍 Job Check: ID=None | Text=Actively reviewing applicants
+2026-03-06 11:21:26 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:21:26 INFO    message=🔍 Job Check: ID=search | Text=Artificial Intelligence Engineer | Mavenir | Bengaluru, Karnataka, India (On-site) | Promoted | Easy Apply
+2026-03-06 11:21:26 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:21:26 INFO    message=🔍 Job Check: ID=search | Text=AI/ML Engineer | BayOne Solutions | India (Remote) | Promoted | Easy Apply
+2026-03-06 11:21:26 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:21:26 INFO    message=🔍 Job Check: ID=search | Text=Artificial Intelligence Engineer | Newgen Software | Gurugram, Haryana, India (On-site) | Actively reviewi
+2026-03-06 11:21:26 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:21:26 INFO    message=🔍 Job Check: ID=None | Text=Actively reviewing applicants
+2026-03-06 11:21:26 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:21:26 INFO    message=🔍 Job Check: ID=search | Text=FullStack Engineer - II (Remote) | PriceLabs | Bengaluru, Karnataka, India (Remote) | 18 hours ago | Within 
+2026-03-06 11:21:26 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:21:26 INFO    message=🔍 Job Check: ID=search | Text=HR Manager | Lexsi Labs | Mumbai Metropolitan Region (Remote) | 4 hours ago | Within the past 24 hours
+2026-03-06 11:21:26 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:21:26 INFO    message=🔍 Job Check: ID=search | Text=Senior Specialist, Policy New Delhi, India (12 Month Fixed Term Contract) | Principles for Responsible
+2026-03-06 11:21:26 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:21:26 INFO    message=🔍 Job Check: ID=search | Text=Machine Learning Engineer | Cubiq Recruitment | San Francisco Bay Area (On-site) | $200K/yr - $400K/yr | 2 d
+2026-03-06 11:21:26 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:21:26 INFO    message=🔍 Job Check: ID=search | Text=AI/ML Engineer- Generative AI | LTM | Irving, TX (Hybrid) | $79.9K/yr - $107.7K/yr · 5 benefits | 1 week ago
+2026-03-06 11:21:26 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:21:26 INFO    message=🔍 Job Check: ID=search | Text=Software AI Engineer | micro1 | United States (Remote) | 8 hours ago | Within the past 24 hours
+2026-03-06 11:21:26 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:21:27 INFO    message=🔍 Job Check: ID=4381049902 | Text=Senior LLM Engineer (Volunteer)- Remote | Senior LLM Engineer (Volunteer)- Remote | Health4TheWorld Inc | 
+2026-03-06 11:21:27 INFO    message=⏭️ Skipping 4381049902 - already processed on this page
+2026-03-06 11:21:27 INFO    message=🔍 Job Check: ID=search | Text=Artificial Intelligence Engineer | Newgen Software | Gurugram, Haryana, India (On-site) | Actively reviewi
+2026-03-06 11:21:27 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:21:27 INFO    message=🔍 Job Check: ID=None | Text=Actively reviewing applicants
+2026-03-06 11:21:27 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:21:27 INFO    message=🔍 Job Check: ID=search | Text=Generative AI Engineer | HCLTech | Bengaluru, Karnataka, India (Hybrid) | Actively reviewing applicants | Pr
+2026-03-06 11:21:27 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:21:27 INFO    message=🔍 Job Check: ID=None | Text=Actively reviewing applicants
+2026-03-06 11:21:27 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:21:27 INFO    message=🔍 Job Check: ID=search | Text=Artificial Intelligence Engineer | HGS | Bengaluru, Karnataka, India (On-site) | Actively reviewing applic
+2026-03-06 11:21:27 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:21:27 INFO    message=🔍 Job Check: ID=None | Text=Actively reviewing applicants
+2026-03-06 11:21:27 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:21:27 INFO    message=🔍 Job Check: ID=search | Text=Artificial Intelligence Engineer | Mavenir | Bengaluru, Karnataka, India (On-site) | Promoted | Easy Apply
+2026-03-06 11:21:27 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:21:27 INFO    message=🔍 Job Check: ID=search | Text=AI/ML Engineer | BayOne Solutions | India (Remote) | Promoted | Easy Apply
+2026-03-06 11:21:27 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:21:27 INFO    message=🔍 Job Check: ID=search | Text=Artificial Intelligence Engineer | Newgen Software | Gurugram, Haryana, India (On-site) | Actively reviewi
+2026-03-06 11:21:27 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:21:27 INFO    message=🔍 Job Check: ID=None | Text=Actively reviewing applicants
+2026-03-06 11:21:27 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:21:27 INFO    message=🔍 Job Check: ID=search | Text=FullStack Engineer - II (Remote) | PriceLabs | Bengaluru, Karnataka, India (Remote) | 18 hours ago | Within 
+2026-03-06 11:21:27 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:21:28 INFO    message=🔍 Job Check: ID=search | Text=HR Manager | Lexsi Labs | Mumbai Metropolitan Region (Remote) | 4 hours ago | Within the past 24 hours
+2026-03-06 11:21:28 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:21:28 INFO    message=🔍 Job Check: ID=search | Text=Senior Specialist, Policy New Delhi, India (12 Month Fixed Term Contract) | Principles for Responsible
+2026-03-06 11:21:28 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:21:28 INFO    message=🔍 Job Check: ID=search | Text=Machine Learning Engineer | Cubiq Recruitment | San Francisco Bay Area (On-site) | $200K/yr - $400K/yr | 2 d
+2026-03-06 11:21:28 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:21:28 INFO    message=🔍 Job Check: ID=search | Text=AI/ML Engineer- Generative AI | LTM | Irving, TX (Hybrid) | $79.9K/yr - $107.7K/yr · 5 benefits | 1 week ago
+2026-03-06 11:21:28 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:21:28 INFO    message=🔍 Job Check: ID=search | Text=Software AI Engineer | micro1 | United States (Remote) | 8 hours ago | Within the past 24 hours
+2026-03-06 11:21:28 INFO    message=⏭️ Skipping search - already processed on this page
+2026-03-06 11:21:28 INFO    step=job_extract message=Finished Page 1: 0 NEW links saved. Total so far: 0/9999
+2026-03-06 11:21:28 INFO    step=job_extract message=📥 Buffer now holds 1 jobs total (flush at end of run)
+2026-03-06 11:21:28 INFO    step=job_extract message=Next button not found, using URL pagination...
+2026-03-06 11:21:28 INFO    step=job_extract event=navigation message=Navigating to: https://www.linkedin.com/jobs/search/?keywords=%22LLM Engineer%22&location=United States&f_TPR=r86400&start=25&f_D=10&distance=10&sortBy=DD&origin=JOB_SEARCH_PAGE_LOCATION_AUTOCOMPLETE&refresh=true
+2026-03-06 11:21:38 INFO    step=job_extract message=Page 2 | 59.0m left
+2026-03-06 11:21:38 INFO    step=job_extract event=no_results message=No more jobs found for this search.
+2026-03-06 11:21:38 INFO    message=  --- Distance Bucket: 25 miles (Candidate Total: 1) ---
+2026-03-06 11:21:38 DEBUG   message=Cleanup: No jobs older than 3 days found.
+2026-03-06 11:21:38 INFO    message=Starting extraction for: United States at 25mi
+2026-03-06 11:21:38 INFO    step=extract_init message=Extracting jobs for LLM Engineer: United States (Zipcode: United States)
+2026-03-06 11:21:38 INFO    message=📂 CSV file: C:\Users\KUMAR-MINI-PC-7\non eassy\project-bot-non-easy-apply-job-extractor\data\exports\extractor_job_links.csv
+2026-03-06 11:21:38 INFO    step=job_extract event=navigation message=Navigating to: https://www.linkedin.com/jobs/search/?keywords=%22LLM Engineer%22&location=United States&f_TPR=r86400&start=0&f_D=25&distance=25&sortBy=DD&origin=JOB_SEARCH_PAGE_LOCATION_AUTOCOMPLETE&refresh=true
+2026-03-06 11:21:48 INFO    step=job_extract message=Page 1 | 59.0m left
+2026-03-06 11:21:50 INFO    step=job_extract message=Starting scroll routine...
+2026-03-06 11:21:54 INFO    step=job_extract message=✅ Scrolling complete. Found 1 job cards to inspect.
+2026-03-06 11:21:55 INFO    message=🔍 Job Check: ID=4381049902 | Text=Senior LLM Engineer (Volunteer)- Remote | Senior LLM Engineer (Volunteer)- Remote | Health4TheWorld Inc | 
+2026-03-06 11:21:55 INFO    message=🚫 Skipping EASY APPLY job: 4381049902
+2026-03-06 11:21:55 INFO    message=🔍 Job Check: ID=4381049902 | Text=Senior LLM Engineer (Volunteer)- Remote | Senior LLM Engineer (Volunteer)- Remote | Health4TheWorld Inc | 
+2026-03-06 11:21:55 INFO    message=⏭️ Skipping 4381049902 - already processed on this page
+2026-03-06 11:21:55 INFO    step=job_extract message=Finished Page 1: 0 NEW links saved. Total so far: 0/9999
+2026-03-06 11:21:55 INFO    step=job_extract message=📥 Buffer now holds 1 jobs total (flush at end of run)
+2026-03-06 11:21:55 INFO    step=job_extract message=Next button not found, using URL pagination...
+2026-03-06 11:21:55 INFO    step=job_extract event=navigation message=Navigating to: https://www.linkedin.com/jobs/search/?keywords=%22LLM Engineer%22&location=United States&f_TPR=r86400&start=25&f_D=25&distance=25&sortBy=DD&origin=JOB_SEARCH_PAGE_LOCATION_AUTOCOMPLETE&refresh=true
+2026-03-06 11:22:05 INFO    step=job_extract message=Page 2 | 59.0m left
+2026-03-06 11:22:05 INFO    step=job_extract event=no_results message=No more jobs found for this search.
+2026-03-06 11:22:05 INFO    step=extract_init message=Extracting jobs for AI/ML Engineer: United States (Zipcode: United States)
+2026-03-06 11:22:05 INFO    message=📂 CSV file: C:\Users\KUMAR-MINI-PC-7\non eassy\project-bot-non-easy-apply-job-extractor\data\exports\extractor_job_links.csv
+2026-03-06 11:22:05 INFO    step=job_extract event=navigation message=Navigating to: https://www.linkedin.com/jobs/search/?keywords=%22AI/ML Engineer%22&location=United States&f_TPR=r86400&start=0&f_D=25&distance=25&sortBy=DD&origin=JOB_SEARCH_PAGE_LOCATION_AUTOCOMPLETE&refresh=true
+2026-03-06 11:22:15 INFO    step=job_extract message=Page 1 | 59.0m left
+2026-03-06 11:22:17 INFO    step=job_extract message=Starting scroll routine...
+2026-03-06 11:22:21 INFO    step=job_extract message=✅ Scrolling complete. Found 11 job cards to inspect.
+2026-03-06 11:22:22 INFO    message=🔍 Job Check: ID=4382153344 | Text=Enterprise - AI/ML Engineer - Python, AWS, LLMs | Enterprise - AI/ML Engineer - Python, AWS, LLMs | Eria
+
+[ATS DEBUG] ─────────────────────────────────────────
+[ATS DEBUG] Job ID   : 4382153344
+[ATS DEBUG] Job Title: enterprise - ai/ml engineer - python, aws, llms
+[ATS DEBUG] Searching for Apply button (primary selector)...
+[ATS DEBUG] Details pane not found, searching globally (primary)...
+[ATS DEBUG] Primary selector found: 0 element(s)
+2026-03-06 11:22:28 INFO    step=extract_job message=🔍 Primary apply selector found nothing. Trying fallback...
+[ATS DEBUG] Trying fallback selector...
+[ATS DEBUG] Fallback selector found: 0 element(s)
+2026-03-06 11:22:28 INFO    step=extract_job message= No 'Apply' button found for Job 4382153344 — saving LinkedIn URL instead.
+[ATS DEBUG]  NO APPLY BUTTON FOUND — will save LinkedIn URL
+[ATS DEBUG] ⚠️ Failed to save diagnostic capture: name 'datetime' is not defined
+[ATS DEBUG] Final URL saved: https://www.linkedin.com/jobs/view/4382153344
+[ATS DEBUG] ─────────────────────────────────────────
+
+2026-03-06 11:22:28 INFO    step=extract_job message=📥 Queued for bulk insert (buffer size: 2)
+2026-03-06 11:22:28 INFO    step=extract_job message=Saved job: enterprise - ai/ml engineer - python, aws, llms at erias ventures (annapolis junction, md (hybrid)) - Zipcode: united states
+2026-03-06 11:22:28 INFO    message=🔍 Job Check: ID=4381065164 | Text=Senior AI/ML Engineer | Senior AI/ML Engineer | Jobs via Dice | Plano, TX (On-site) | Viewed
+2026-03-06 11:22:28 INFO    message=⏭️ Skipping 4381065164 - already seen (duplicate)
+2026-03-06 11:22:28 INFO    message=🔍 Job Check: ID=4380299506 | Text=AI/ML Engineer - Drug Discovery | AI/ML Engineer - Drug Discovery with verification | Pinnacle Medicines
+2026-03-06 11:22:28 INFO    message=🚫 Skipping EASY APPLY job: 4380299506
+2026-03-06 11:22:28 INFO    message=🔍 Job Check: ID=None | Text=Company review time is typically 1 week
+2026-03-06 11:22:28 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:22:28 INFO    message=🔍 Job Check: ID=4381048696 | Text=Junior AI/ML Engineer | Junior AI/ML Engineer | Flexon Technologies Talent360.ai | Pleasanton, CA (On-site
+2026-03-06 11:22:28 INFO    message=🚫 Skipping EASY APPLY job: 4381048696
+2026-03-06 11:22:28 INFO    message=🔍 Job Check: ID=4381049463 | Text=Contract on W2 :: AI/ML Engineer (Copilot or Python Coding) ::Alpharetta, GA / NYC, NY | Contract on W
+2026-03-06 11:22:28 INFO    message=🚫 Skipping EASY APPLY job: 4381049463
+2026-03-06 11:22:28 INFO    message=🔍 Job Check: ID=None | Text=Company review time is typically 1 week
+2026-03-06 11:22:28 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:22:28 INFO    message=🔍 Job Check: ID=4382127163 | Text=Senior AI/ML Engineer (On-Site): $250K+ | Senior AI/ML Engineer (On-Site): $250K+ with verification | IC
+2026-03-06 11:22:28 INFO    message=🚫 Skipping EASY APPLY job: 4382127163
+2026-03-06 11:22:28 INFO    message=🔍 Job Check: ID=None | Text=Company review time is typically 1 week
+2026-03-06 11:22:28 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:22:29 INFO    message=🔍 Job Check: ID=4381049168 | Text=AI/ML Engineer | AI/ML Engineer with verification | Tekgence Inc | Alpharetta, GA (On-site) | Company review
+2026-03-06 11:22:29 INFO    message=🚫 Skipping EASY APPLY job: 4381049168
+2026-03-06 11:22:29 INFO    message=🔍 Job Check: ID=None | Text=Company review time is typically 1 week
+2026-03-06 11:22:29 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:22:29 INFO    message=🔍 Job Check: ID=4382153344 | Text=Enterprise - AI/ML Engineer - Python, AWS, LLMs | Enterprise - AI/ML Engineer - Python, AWS, LLMs | Eria
+2026-03-06 11:22:29 INFO    message=⏭️ Skipping 4382153344 - already processed on this page
+2026-03-06 11:22:29 INFO    message=🔍 Job Check: ID=4381065164 | Text=Senior AI/ML Engineer | Senior AI/ML Engineer | Jobs via Dice | Plano, TX (On-site) | Viewed
+2026-03-06 11:22:29 INFO    message=⏭️ Skipping 4381065164 - already seen (duplicate)
+2026-03-06 11:22:29 INFO    message=🔍 Job Check: ID=4380299506 | Text=AI/ML Engineer - Drug Discovery | AI/ML Engineer - Drug Discovery with verification | Pinnacle Medicines
+2026-03-06 11:22:29 INFO    message=⏭️ Skipping 4380299506 - already processed on this page
+2026-03-06 11:22:29 INFO    message=🔍 Job Check: ID=None | Text=Company review time is typically 1 week
+2026-03-06 11:22:29 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:22:29 INFO    message=🔍 Job Check: ID=4381048696 | Text=Junior AI/ML Engineer | Junior AI/ML Engineer | Flexon Technologies Talent360.ai | Pleasanton, CA (On-site
+2026-03-06 11:22:29 INFO    message=⏭️ Skipping 4381048696 - already processed on this page
+2026-03-06 11:22:29 INFO    message=🔍 Job Check: ID=4381049463 | Text=Contract on W2 :: AI/ML Engineer (Copilot or Python Coding) ::Alpharetta, GA / NYC, NY | Contract on W
+2026-03-06 11:22:29 INFO    message=⏭️ Skipping 4381049463 - already processed on this page
+2026-03-06 11:22:29 INFO    message=🔍 Job Check: ID=None | Text=Company review time is typically 1 week
+2026-03-06 11:22:29 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:22:30 INFO    message=🔍 Job Check: ID=4382127163 | Text=Senior AI/ML Engineer (On-Site): $250K+ | Senior AI/ML Engineer (On-Site): $250K+ with verification | IC
+2026-03-06 11:22:30 INFO    message=⏭️ Skipping 4382127163 - already processed on this page
+2026-03-06 11:22:30 INFO    message=🔍 Job Check: ID=None | Text=Company review time is typically 1 week
+2026-03-06 11:22:30 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:22:30 INFO    message=🔍 Job Check: ID=4381049168 | Text=AI/ML Engineer | AI/ML Engineer with verification | Tekgence Inc | Alpharetta, GA (On-site) | Company review
+2026-03-06 11:22:30 INFO    message=⏭️ Skipping 4381049168 - already processed on this page
+2026-03-06 11:22:30 INFO    message=🔍 Job Check: ID=None | Text=Company review time is typically 1 week
+2026-03-06 11:22:30 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:22:30 INFO    step=job_extract message=Finished Page 1: 1 NEW links saved. Total so far: 1/9999
+2026-03-06 11:22:30 INFO    step=job_extract message=📥 Buffer now holds 2 jobs total (flush at end of run)
+2026-03-06 11:22:30 INFO    step=job_extract message=Clicking NEXT button...
+2026-03-06 11:22:35 INFO    step=job_extract message=Page 2 | 59.0m left
+2026-03-06 11:22:37 INFO    step=job_extract message=Starting scroll routine...
+2026-03-06 11:22:41 INFO    step=job_extract message=✅ Scrolling complete. Found 7 job cards to inspect.
+2026-03-06 11:22:42 INFO    message=🔍 Job Check: ID=4381018150 | Text=AI & ML Engineer | AI & ML Engineer | Jobs via Dice | McLean, VA (Hybrid) | $77.6K/yr - $176K/yr · 1 benefit
+2026-03-06 11:22:42 INFO    message=⏭️ Skipping 4381018150 - already seen (duplicate)
+2026-03-06 11:22:42 INFO    message=🔍 Job Check: ID=4381972213 | Text=AI/ML Engineer | AI/ML Engineer | micro1 | Washington, DC (Hybrid) | Viewed
+2026-03-06 11:22:42 INFO    message=⏭️ Skipping 4381972213 - already seen (duplicate)
+2026-03-06 11:22:42 INFO    message=🔍 Job Check: ID=4365341927 | Text=Generative AI/ML Engineer | Generative AI/ML Engineer with verification | Booz Allen Hamilton | Bethesda, 
+2026-03-06 11:22:42 INFO    message=⏭️ Skipping 4365341927 - already seen (duplicate)
+2026-03-06 11:22:42 INFO    message=🔍 Job Check: ID=4380641462 | Text=AI and ML Engineer | AI and ML Engineer | Jobs via Dice | Offutt Air Force Base, NE (On-site) | $99K/yr - $2
+2026-03-06 11:22:42 INFO    message=⏭️ Skipping 4380641462 - already seen (duplicate)
+2026-03-06 11:22:42 INFO    message=🔍 Job Check: ID=4380211691 | Text=AI/ML Engineer - Systems | AI/ML Engineer - Systems with verification | KLA | Ann Arbor, MI | $105.9K/yr - $
+2026-03-06 11:22:42 INFO    message=⏭️ Skipping 4380211691 - already seen (duplicate)
+2026-03-06 11:22:42 INFO    message=🔍 Job Check: ID=4381901835 | Text=AI & ML Engineer | AI & ML Engineer with verification | Booz Allen Hamilton | McLean, VA (Hybrid) | $77.6K/y
+2026-03-06 11:22:42 INFO    message=⏭️ Skipping 4381901835 - already seen (duplicate)
+2026-03-06 11:22:42 INFO    message=🔍 Job Check: ID=4381914060 | Text=Junior AI/ML Engineer (Remote) | Junior AI/ML Engineer (Remote) with verification | Lensa | Boston, MA (Re
+2026-03-06 11:22:42 INFO    message=⏭️ Skipping 4381914060 - already seen (duplicate)
+2026-03-06 11:22:42 INFO    step=job_extract message=Finished Page 2: 0 NEW links saved. Total so far: 1/9999
+2026-03-06 11:22:42 INFO    step=job_extract message=📥 Buffer now holds 2 jobs total (flush at end of run)
+2026-03-06 11:22:42 INFO    step=job_extract message=Next button not found, using URL pagination...
+2026-03-06 11:22:42 INFO    step=job_extract event=navigation message=Navigating to: https://www.linkedin.com/jobs/search/?keywords=%22AI/ML Engineer%22&location=United States&f_TPR=r86400&start=50&f_D=25&distance=25&sortBy=DD&origin=JOB_SEARCH_PAGE_LOCATION_AUTOCOMPLETE&refresh=true
+2026-03-06 11:22:52 INFO    step=job_extract message=Page 3 | 59.0m left
+2026-03-06 11:22:52 INFO    step=job_extract event=no_results message=No more jobs found for this search.
+2026-03-06 11:22:52 INFO    message=  --- Distance Bucket: 50 miles (Candidate Total: 2) ---
+2026-03-06 11:22:52 DEBUG   message=Cleanup: No jobs older than 3 days found.
+2026-03-06 11:22:52 INFO    message=Starting extraction for: United States at 50mi
+2026-03-06 11:22:52 INFO    step=extract_init message=Extracting jobs for LLM Engineer: United States (Zipcode: United States)
+2026-03-06 11:22:52 INFO    message=📂 CSV file: C:\Users\KUMAR-MINI-PC-7\non eassy\project-bot-non-easy-apply-job-extractor\data\exports\extractor_job_links.csv
+2026-03-06 11:22:52 INFO    step=job_extract event=navigation message=Navigating to: https://www.linkedin.com/jobs/search/?keywords=%22LLM Engineer%22&location=United States&f_TPR=r86400&start=0&f_D=50&distance=50&sortBy=DD&origin=JOB_SEARCH_PAGE_LOCATION_AUTOCOMPLETE&refresh=true
+2026-03-06 11:23:02 INFO    step=job_extract message=Page 1 | 59.0m left
+2026-03-06 11:23:04 INFO    step=job_extract message=Starting scroll routine...
+2026-03-06 11:23:07 INFO    step=job_extract message=✅ Scrolling complete. Found 1 job cards to inspect.
+2026-03-06 11:23:08 INFO    message=🔍 Job Check: ID=4381049902 | Text=Senior LLM Engineer (Volunteer)- Remote | Senior LLM Engineer (Volunteer)- Remote | Health4TheWorld Inc | 
+2026-03-06 11:23:08 INFO    message=🚫 Skipping EASY APPLY job: 4381049902
+2026-03-06 11:23:09 INFO    message=🔍 Job Check: ID=4381049902 | Text=Senior LLM Engineer (Volunteer)- Remote | Senior LLM Engineer (Volunteer)- Remote | Health4TheWorld Inc | 
+2026-03-06 11:23:09 INFO    message=⏭️ Skipping 4381049902 - already processed on this page
+2026-03-06 11:23:09 INFO    step=job_extract message=Finished Page 1: 0 NEW links saved. Total so far: 0/9999
+2026-03-06 11:23:09 INFO    step=job_extract message=📥 Buffer now holds 2 jobs total (flush at end of run)
+2026-03-06 11:23:09 INFO    step=job_extract message=Next button not found, using URL pagination...
+2026-03-06 11:23:09 INFO    step=job_extract event=navigation message=Navigating to: https://www.linkedin.com/jobs/search/?keywords=%22LLM Engineer%22&location=United States&f_TPR=r86400&start=25&f_D=50&distance=50&sortBy=DD&origin=JOB_SEARCH_PAGE_LOCATION_AUTOCOMPLETE&refresh=true
+2026-03-06 11:23:19 INFO    step=job_extract message=Page 2 | 59.0m left
+2026-03-06 11:23:19 INFO    step=job_extract event=no_results message=No more jobs found for this search.
+2026-03-06 11:23:19 INFO    step=extract_init message=Extracting jobs for AI/ML Engineer: United States (Zipcode: United States)
+2026-03-06 11:23:19 INFO    message=📂 CSV file: C:\Users\KUMAR-MINI-PC-7\non eassy\project-bot-non-easy-apply-job-extractor\data\exports\extractor_job_links.csv
+2026-03-06 11:23:19 INFO    step=job_extract event=navigation message=Navigating to: https://www.linkedin.com/jobs/search/?keywords=%22AI/ML Engineer%22&location=United States&f_TPR=r86400&start=0&f_D=50&distance=50&sortBy=DD&origin=JOB_SEARCH_PAGE_LOCATION_AUTOCOMPLETE&refresh=true
+2026-03-06 11:23:29 INFO    step=job_extract message=Page 1 | 59.0m left
+2026-03-06 11:23:31 INFO    step=job_extract message=Starting scroll routine...
+2026-03-06 11:23:35 INFO    step=job_extract message=✅ Scrolling complete. Found 10 job cards to inspect.
+2026-03-06 11:23:36 INFO    message=🔍 Job Check: ID=4382139987 | Text=Python Developer AI ML Engineer | Python Developer AI ML Engineer | VeeRteq Solutions LLC | Princeton, NJ | 
+
+[ATS DEBUG] ─────────────────────────────────────────
+[ATS DEBUG] Job ID   : 4382139987
+[ATS DEBUG] Job Title: python developer ai ml engineer
+[ATS DEBUG] Searching for Apply button (primary selector)...
+[ATS DEBUG] Details pane not found, searching globally (primary)...
+[ATS DEBUG] Primary selector found: 0 element(s)
+2026-03-06 11:23:42 INFO    step=extract_job message=🔍 Primary apply selector found nothing. Trying fallback...
+[ATS DEBUG] Trying fallback selector...
+[ATS DEBUG] Fallback selector found: 0 element(s)
+2026-03-06 11:23:42 INFO    step=extract_job message= No 'Apply' button found for Job 4382139987 — saving LinkedIn URL instead.
+[ATS DEBUG]  NO APPLY BUTTON FOUND — will save LinkedIn URL
+[ATS DEBUG] ⚠️ Failed to save diagnostic capture: name 'datetime' is not defined
+[ATS DEBUG] Final URL saved: https://www.linkedin.com/jobs/view/4382139987
+[ATS DEBUG] ─────────────────────────────────────────
+
+2026-03-06 11:23:42 INFO    step=extract_job message=📥 Queued for bulk insert (buffer size: 3)
+2026-03-06 11:23:42 INFO    step=extract_job message=Saved job: python developer ai ml engineer at veerteq solutions llc (princeton, nj) - Zipcode: united states
+2026-03-06 11:23:42 INFO    message=🔍 Job Check: ID=4382153344 | Text=Enterprise - AI/ML Engineer - Python, AWS, LLMs | Enterprise - AI/ML Engineer - Python, AWS, LLMs | Eria
+2026-03-06 11:23:42 INFO    message=⏭️ Skipping 4382153344 - already seen (duplicate)
+2026-03-06 11:23:42 INFO    message=🔍 Job Check: ID=4381065164 | Text=Senior AI/ML Engineer | Senior AI/ML Engineer | Jobs via Dice | Plano, TX (On-site) | Viewed
+2026-03-06 11:23:42 INFO    message=⏭️ Skipping 4381065164 - already seen (duplicate)
+2026-03-06 11:23:42 INFO    message=🔍 Job Check: ID=4380299506 | Text=AI/ML Engineer - Drug Discovery | AI/ML Engineer - Drug Discovery with verification | Pinnacle Medicines
+2026-03-06 11:23:42 INFO    message=🚫 Skipping EASY APPLY job: 4380299506
+2026-03-06 11:23:42 INFO    message=🔍 Job Check: ID=None | Text=Company review time is typically 1 week
+2026-03-06 11:23:42 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:23:42 INFO    message=🔍 Job Check: ID=4381048696 | Text=Junior AI/ML Engineer | Junior AI/ML Engineer | Flexon Technologies Talent360.ai | Pleasanton, CA (On-site
+2026-03-06 11:23:42 INFO    message=🚫 Skipping EASY APPLY job: 4381048696
+2026-03-06 11:23:42 INFO    message=🔍 Job Check: ID=4381049463 | Text=Contract on W2 :: AI/ML Engineer (Copilot or Python Coding) ::Alpharetta, GA / NYC, NY | Contract on W
+2026-03-06 11:23:42 INFO    message=🚫 Skipping EASY APPLY job: 4381049463
+2026-03-06 11:23:42 INFO    message=🔍 Job Check: ID=None | Text=Company review time is typically 1 week
+2026-03-06 11:23:42 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:23:42 INFO    message=🔍 Job Check: ID=4382127163 | Text=Senior AI/ML Engineer (On-Site): $250K+ | Senior AI/ML Engineer (On-Site): $250K+ with verification | IC
+2026-03-06 11:23:42 INFO    message=🚫 Skipping EASY APPLY job: 4382127163
+2026-03-06 11:23:42 INFO    message=🔍 Job Check: ID=None | Text=Company review time is typically 1 week
+2026-03-06 11:23:42 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:23:43 INFO    message=🔍 Job Check: ID=4382139987 | Text=Python Developer AI ML Engineer | Python Developer AI ML Engineer | VeeRteq Solutions LLC | Princeton, NJ | 
+2026-03-06 11:23:43 INFO    message=⏭️ Skipping 4382139987 - already processed on this page
+2026-03-06 11:23:43 INFO    message=🔍 Job Check: ID=4382153344 | Text=Enterprise - AI/ML Engineer - Python, AWS, LLMs | Enterprise - AI/ML Engineer - Python, AWS, LLMs | Eria
+2026-03-06 11:23:43 INFO    message=⏭️ Skipping 4382153344 - already seen (duplicate)
+2026-03-06 11:23:43 INFO    message=🔍 Job Check: ID=4381065164 | Text=Senior AI/ML Engineer | Senior AI/ML Engineer | Jobs via Dice | Plano, TX (On-site) | Viewed
+2026-03-06 11:23:43 INFO    message=⏭️ Skipping 4381065164 - already seen (duplicate)
+2026-03-06 11:23:43 INFO    message=🔍 Job Check: ID=4380299506 | Text=AI/ML Engineer - Drug Discovery | AI/ML Engineer - Drug Discovery with verification | Pinnacle Medicines
+2026-03-06 11:23:43 INFO    message=⏭️ Skipping 4380299506 - already processed on this page
+2026-03-06 11:23:43 INFO    message=🔍 Job Check: ID=None | Text=Company review time is typically 1 week
+2026-03-06 11:23:43 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:23:43 INFO    message=🔍 Job Check: ID=4381048696 | Text=Junior AI/ML Engineer | Junior AI/ML Engineer | Flexon Technologies Talent360.ai | Pleasanton, CA (On-site
+2026-03-06 11:23:43 INFO    message=⏭️ Skipping 4381048696 - already processed on this page
+2026-03-06 11:23:43 INFO    message=🔍 Job Check: ID=4381049463 | Text=Contract on W2 :: AI/ML Engineer (Copilot or Python Coding) ::Alpharetta, GA / NYC, NY | Contract on W
+2026-03-06 11:23:43 INFO    message=⏭️ Skipping 4381049463 - already processed on this page
+2026-03-06 11:23:43 INFO    message=🔍 Job Check: ID=None | Text=Company review time is typically 1 week
+2026-03-06 11:23:43 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:23:43 INFO    message=🔍 Job Check: ID=4382127163 | Text=Senior AI/ML Engineer (On-Site): $250K+ | Senior AI/ML Engineer (On-Site): $250K+ with verification | IC
+2026-03-06 11:23:43 INFO    message=⏭️ Skipping 4382127163 - already processed on this page
+2026-03-06 11:23:43 INFO    message=🔍 Job Check: ID=None | Text=Company review time is typically 1 week
+2026-03-06 11:23:43 INFO    message=❌ Skipping - no job ID found
+2026-03-06 11:23:43 INFO    step=job_extract message=Finished Page 1: 1 NEW links saved. Total so far: 1/9999
+2026-03-06 11:23:43 INFO    step=job_extract message=📥 Buffer now holds 3 jobs total (flush at end of run)
+2026-03-06 11:23:43 INFO    step=job_extract message=Clicking NEXT button...
+2026-03-06 11:23:49 INFO    step=job_extract message=Page 2 | 59.0m left
+2026-03-06 11:23:51 INFO    step=job_extract message=Starting scroll routine...
+2026-03-06 11:23:54 INFO    step=job_extract message=✅ Scrolling complete. Found 7 job cards to inspect.
+2026-03-06 11:23:55 INFO    message=🔍 Job Check: ID=4381018150 | Text=AI & ML Engineer | AI & ML Engineer | Jobs via Dice | McLean, VA (Hybrid) | $77.6K/yr - $176K/yr · 1 benefit
+2026-03-06 11:23:55 INFO    message=⏭️ Skipping 4381018150 - already seen (duplicate)
+2026-03-06 11:23:55 INFO    message=🔍 Job Check: ID=4381972213 | Text=AI/ML Engineer | AI/ML Engineer | micro1 | Washington, DC (Hybrid) | Viewed
+2026-03-06 11:23:55 INFO    message=⏭️ Skipping 4381972213 - already seen (duplicate)
+2026-03-06 11:23:55 INFO    message=🔍 Job Check: ID=4365341927 | Text=Generative AI/ML Engineer | Generative AI/ML Engineer with verification | Booz Allen Hamilton | Bethesda, 
+2026-03-06 11:23:55 INFO    message=⏭️ Skipping 4365341927 - already seen (duplicate)
+2026-03-06 11:23:55 INFO    message=🔍 Job Check: ID=4380641462 | Text=AI and ML Engineer | AI and ML Engineer | Jobs via Dice | Offutt Air Force Base, NE (On-site) | $99K/yr - $2
+2026-03-06 11:23:55 INFO    message=⏭️ Skipping 4380641462 - already seen (duplicate)
+2026-03-06 11:23:55 INFO    message=🔍 Job Check: ID=4380211691 | Text=AI/ML Engineer - Systems | AI/ML Engineer - Systems with verification | KLA | Ann Arbor, MI | $105.9K/yr - $
+2026-03-06 11:23:55 INFO    message=⏭️ Skipping 4380211691 - already seen (duplicate)
+2026-03-06 11:23:56 INFO    message=🔍 Job Check: ID=4381901835 | Text=AI & ML Engineer | AI & ML Engineer with verification | Booz Allen Hamilton | McLean, VA (Hybrid) | $77.6K/y
+2026-03-06 11:23:56 INFO    message=⏭️ Skipping 4381901835 - already seen (duplicate)
+2026-03-06 11:23:56 INFO    message=🔍 Job Check: ID=4381914060 | Text=Junior AI/ML Engineer (Remote) | Junior AI/ML Engineer (Remote) with verification | Lensa | Boston, MA (Re
+2026-03-06 11:23:56 INFO    message=⏭️ Skipping 4381914060 - already seen (duplicate)
+2026-03-06 11:23:56 INFO    step=job_extract message=Finished Page 2: 0 NEW links saved. Total so far: 1/9999
+2026-03-06 11:23:56 INFO    step=job_extract message=📥 Buffer now holds 3 jobs total (flush at end of run)
+2026-03-06 11:23:56 INFO    step=job_extract message=Next button not found, using URL pagination...
+2026-03-06 11:23:56 INFO    step=job_extract event=navigation message=Navigating to: https://www.linkedin.com/jobs/search/?keywords=%22AI/ML Engineer%22&location=United States&f_TPR=r86400&start=50&f_D=50&distance=50&sortBy=DD&origin=JOB_SEARCH_PAGE_LOCATION_AUTOCOMPLETE&refresh=true
+2026-03-06 11:24:05 INFO    step=job_extract message=Page 3 | 59.0m left
+2026-03-06 11:24:05 INFO    step=job_extract event=no_results message=No more jobs found for this search.
 
 ======================================================================
 📊 EXTRACTION RUN SUMMARY
 ======================================================================
 
-Run ID: 20260305_153214
+Run ID: 20260306_111852
 Candidate: candidate_001
-Duration: 4.07 minutes
-Started: 2026-03-05 15:32:14
-Ended: 2026-03-05 15:36:18
+Duration: 5.31 minutes
+Started: 2026-03-06 11:18:52
+Ended: 2026-03-06 11:24:10
 
 ──────────────────────────────────────────────────────────────────────
 SEARCH PARAMETERS
 ──────────────────────────────────────────────────────────────────────
-Keywords: Python, AI/ML Engineer, LLM Engineer
+Keywords: AI/ML Engineer, LLM Engineer
 Locations: None
 
 ──────────────────────────────────────────────────────────────────────
@@ -89,15 +650,18 @@ Total Warnings:                  0
 
 ======================================================================
 
-2026-03-05 15:36:18 INFO    message=No new jobs collected — nothing to flush.
-2026-03-05 15:36:18 INFO    message=✅ Daily Extraction completed.
-2026-03-05 15:36:18 INFO    message=============================================================
-2026-03-05 15:36:18 INFO    message=Extraction completed successfully!
-2026-03-05 15:36:18 INFO    message=============================================================
-2026-03-05 15:36:18 INFO    message=Loaded API token from local cache.
-2026-03-05 15:36:31 INFO    message=Updated log 107 with status: success
-2026-03-05 15:36:31 INFO    message=Loaded API token from local cache.
-2026-03-05 15:36:47 INFO    message=Unlocked schedule 8. Next run: 2026-03-06 15:36:31.985475
-2026-03-05 15:36:47 INFO    message=Website Scheduler - Finished
-2026-03-05 15:36:47 INFO    message=============================================================
-[Thu 03/05/2026 15:36:48.01] Script finished with code 0 
+2026-03-06 11:24:10 INFO    message=📡 Final bulk insert: 3 jobs collected during this run.
+2026-03-06 11:24:10 INFO    step=api_bulk_save message=📡 Final flush: sending 3 buffered jobs to API...
+2026-03-06 11:24:10 INFO    step=api_bulk_save message=🚀 Sending 3 jobs in bulk to: https://api.whitebox-learning.com/api/positions/bulk
+2026-03-06 11:24:11 INFO    step=api_bulk_save message=✅ Successfully bulk-inserted 3 jobs.
+2026-03-06 11:24:11 INFO    message=✅ Daily Extraction completed.
+2026-03-06 11:24:11 INFO    message=============================================================
+2026-03-06 11:24:11 INFO    message=Extraction completed successfully!
+2026-03-06 11:24:11 INFO    message=============================================================
+2026-03-06 11:24:11 INFO    message=Loaded API token from local cache.
+2026-03-06 11:24:12 INFO    message=Updated log 110 with status: success
+2026-03-06 11:24:12 INFO    message=Loaded API token from local cache.
+2026-03-06 11:24:13 INFO    message=Unlocked schedule 8. Next run: 2026-03-07 11:24:12.371899
+2026-03-06 11:24:13 INFO    message=Website Scheduler - Finished
+2026-03-06 11:24:13 INFO    message=============================================================
+[Fri 03/06/2026 11:24:13.17] Script finished with code 0 
