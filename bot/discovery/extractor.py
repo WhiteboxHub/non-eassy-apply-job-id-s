@@ -323,6 +323,73 @@ class JobExtractor(Search):
         self.browser.get(url)
         time.sleep(3)
         self.browser.execute_script("window.scrollTo(0, 0);")
+        
+        # At this point, the search results page is loaded.
+        # We can try to use the native LinkedIn Title filters if configured.
+        if jobs_per_page == 0:  # Only do this on the very first page of the search
+            self.apply_native_title_filters()
+
+    def apply_native_title_filters(self):
+        """Attempts to use the native LinkedIn UI to filter by Title."""
+        if not self.title_filters:
+            return
+            
+        try:
+            logger.info("Applying native Title filters via UI...", step="job_extract")
+            
+            # Click 'All filters' button
+            try:
+                # Need to use a robust selector for LinkedIn's "All filters" button
+                all_filters_btn = self.browser.find_element(By.XPATH, "//button[contains(@aria-label, 'All filters') or contains(text(), 'All filters') or contains(@class, 'search-reusables__all-filters-pill-button')]")
+                self.browser.execute_script("arguments[0].click();", all_filters_btn)
+                time.sleep(3)
+            except Exception as e:
+                logger.warning("Could not find 'All filters' button, skipping native filter.")
+                return
+            
+            # Find Title section checkboxes
+            # Look for all labels in the modal. We'll check if the text loosely matches our title_filters.
+            labels = self.browser.find_elements(By.XPATH, "//div[contains(@class, 'artdeco-modal')]//label | //div[contains(@class, 'search-reusables__filter-trigger-and-dropdown')]//label")
+            
+            clicked_any = False
+            for label in labels:
+                try:
+                    text_content = label.text.strip()
+                    if not text_content:
+                        continue
+                        
+                    text_lower = text_content.lower()
+                    
+                    for f in self.title_filters:
+                        if f.lower() in text_lower:
+                            self.browser.execute_script("arguments[0].click();", label)
+                            logger.info(f"Checked native Title filter for: {text_content}")
+                            time.sleep(1)
+                            clicked_any = True
+                            break
+                except:
+                    pass
+            
+            if clicked_any:
+                # Click 'Show results'
+                try:
+                    show_results_btn = self.browser.find_element(By.XPATH, "//button[contains(@aria-label, 'Apply current filters') or contains(@data-control-name, 'all_filters_apply')] | //span[contains(text(), 'Show') and contains(text(), 'results')]/ancestor::button")
+                    self.browser.execute_script("arguments[0].click();", show_results_btn)
+                    time.sleep(5) # Wait for page reload and processing
+                    logger.info("Successfully applied native Title filters.", step="job_extract")
+                except Exception as e:
+                    logger.warning("Could not click 'Show results' button.")
+            else:
+                logger.info("No matching native Title filters were found in the UI. Relying on strict code-level filter.", step="job_extract")
+                # Close the modal
+                try:
+                    close_btn = self.browser.find_element(By.XPATH, "//button[contains(@aria-label, 'Dismiss') or contains(@class, 'artdeco-modal__dismiss')]")
+                    self.browser.execute_script("arguments[0].click();", close_btn)
+                    time.sleep(1)
+                except: pass
+            
+        except Exception as e:
+            logger.warning(f"Failed to apply native Title filters. Will rely on the code-level strict filter instead. Error: {e}")
 
     def save_job(self, job_id, element, position, search_location, zipcode="", is_easy_apply=False):
         try:
