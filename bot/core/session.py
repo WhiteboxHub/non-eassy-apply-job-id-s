@@ -4,6 +4,7 @@ from bot.utils.logger import logger
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import TimeoutException
+from bot.utils.selectors import get_locator
 
 
 
@@ -41,9 +42,14 @@ class Session:
                      logger.error("Manual login failed or timed out.", step="login", event="failure")
                      return
 
-            user_field = self.browser.find_element(By.ID, "username")
-            pw_field = self.browser.find_element(By.ID, "password")
-            login_button = self.browser.find_element(By.CSS_SELECTOR, 'button[type="submit"]')
+            user_field_loc = get_locator("login_username")
+            user_field = self.browser.find_element(*user_field_loc)
+            
+            pw_field_loc = get_locator("login_password")
+            pw_field = self.browser.find_element(*pw_field_loc)
+            
+            login_btn_loc = get_locator("login_submit")
+            login_button = self.browser.find_element(*login_btn_loc)
             
             user_field.send_keys(username)
             user_field.send_keys(Keys.TAB)
@@ -79,20 +85,20 @@ class Session:
             # Typical LinkedIn error IDs
             error_msg = ""
             try: 
-                error_elem = self.browser.find_element(By.ID, "error-for-password")
+                error_elem = self.browser.find_element(*get_locator("login_error_password"))
                 error_msg = f"Password Error: {error_elem.text}"
             except: pass
             
             if not error_msg:
                 try: 
-                    error_elem = self.browser.find_element(By.ID, "error-for-username")
+                    error_elem = self.browser.find_element(*get_locator("login_error_username"))
                     error_msg = f"Username Error: {error_elem.text}"
                 except: pass
 
             if not error_msg:
                  # Check for alert-content or similar
                  try:
-                     alert = self.browser.find_element(By.CLASS_NAME, "alert-content")
+                     alert = self.browser.find_element(*get_locator("login_alert"))
                      error_msg = f"Alert: {alert.text}"
                  except: pass
 

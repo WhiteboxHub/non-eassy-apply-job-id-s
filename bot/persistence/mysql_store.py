@@ -75,7 +75,7 @@ class MySQLStore:
             state,
             zipcode,
             country,
-            job_data.get('url', ''),
+            job_data.get('apply_url') or job_data.get('url', ''),
             job_data.get('job_id', '')
         )
 

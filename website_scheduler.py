@@ -313,20 +313,20 @@ def main():
                 "count": len(jobs),
                 "easy_apply_count": easy_count,
                 "non_easy_apply_count": non_easy_count,
-                "links": [j.get('url') for j in jobs]
+                "links": [j.get('apply_url') or j.get('url') for j in jobs]
             }
             
             if results.get('status') == 'interrupted':
-                logger.warning("Extraction reported as interrupted via return value.")
+                logger.warning("Extraction reported as interrupted via return value. Marking as success per user request.")
                 if log_id:
                     update_log(
                         log_id,
-                        status='failed',
+                        status='success',
                         records_processed=records_processed,
-                        error_summary="Interrupted by user (Ctrl+C)",
+                        error_summary="Interrupted by user (Ctrl+C) - Marked as Success",
                         execution_metadata=execution_metadata
                     )
-                return  # Skip success logging
+                return  # Exit main successfully
         
         # Update log as success
         if log_id:
@@ -361,12 +361,12 @@ def main():
                     "non_easy_apply_count": 0,
                     "links": []
                 },
-                "error": "Run was manually interrupted by user (Ctrl+C)"
+                "info": "Run was manually interrupted by user (Ctrl+C)"
             }
             update_log(
                 log_id,
-                status='failed',
-                error_summary="Interrupted by user (Ctrl+C)",
+                status='success',
+                error_summary="Interrupted by user (Ctrl+C) - Marked as Success",
                 execution_metadata=interrupted_metadata
             )
         raise  # Re-raise to ensure script exits properly

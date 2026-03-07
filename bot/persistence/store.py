@@ -89,6 +89,7 @@ class Store:
                 id VARCHAR PRIMARY KEY,
                 job_id VARCHAR,
                 url VARCHAR,
+                apply_url VARCHAR,
                 title VARCHAR,
                 company VARCHAR,
                 location VARCHAR,
@@ -97,6 +98,11 @@ class Store:
                 is_easy_apply BOOLEAN
             )
         """)
+        
+        # Migration for apply_url
+        try:
+            cursor.execute("ALTER TABLE extracted_jobs ADD COLUMN apply_url VARCHAR")
+        except: pass
         
         self.con.commit()
 

@@ -95,8 +95,8 @@ LOCATORS = {
     },
     
     "external_apply_button": {
-        "primary": (By.XPATH, "//a[contains(@href, 'redir/redirect')] | //a[contains(@aria-label, 'Apply on company website')]"),
-        "fallback": (By.XPATH, "//button[contains(@aria-label, 'Apply') and not(contains(@aria-label, 'filter'))] | //a[contains(@aria-label, 'Apply') and not(contains(@aria-label, 'filter'))] | //button[.//span[text()='Apply']] | //a[.//span[text()='Apply']] | //button[@id='jobs-apply-button-id']")
+        "primary": (By.XPATH, "//a[contains(@href, 'redir/redirect')] | //a[contains(@aria-label, 'Apply on company website')] | //a[.//span[contains(text(), 'Apply')]]"),
+        "fallback": (By.XPATH, "//button[contains(@aria-label, 'Apply') and not(contains(@aria-label, 'filter'))] | //a[contains(@aria-label, 'Apply') and not(contains(@aria-label, 'filter'))] | //button[.//span[text()='Apply']] | //a[.//span[text()='Apply']] | //button[@id='jobs-apply-button-id'] | //span[text()='Apply']/parent::a")
     },
 
     "all_filters_button": {
@@ -105,14 +105,19 @@ LOCATORS = {
     },
 
     "title_filter_labels": {
-        # Scoped to the Title section container only — tries fieldset, section, li containers with a 'Title' heading
+        # Scoped to the Title section container only — tries fieldset, section, li containers with 'Title' or 'Job title' headings
         "primary": (By.XPATH,
-            "//fieldset[.//legend[normalize-space(text())='Title']]//label"
-            " | //fieldset[.//h3[normalize-space(text())='Title']]//label"
-            " | //section[.//h3[normalize-space(text())='Title']]//label"
-            " | //li[.//h3[normalize-space(text())='Title']]//label"
+            "//fieldset[.//legend[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'title')]]//label"
+            " | //fieldset[.//h3[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'title')]]//label"
+            " | //section[.//h3[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'title')]]//label"
+            " | //li[.//h3[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'title')]]//label"
         ),
         "fallback": (By.XPATH, "//div[contains(@class, 'artdeco-modal')]//label")
+    },
+
+    "title_filter_show_more": {
+        "primary": (By.XPATH, "//fieldset[.//h3[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'title')]]//button[contains(@aria-label, 'Show more')]"),
+        "fallback": (By.XPATH, "//button[contains(., 'Show more') and contains(@aria-label, 'Title')]")
     },
 
     "all_filters_show_results": {
@@ -120,11 +125,88 @@ LOCATORS = {
         "fallback": (By.XPATH, "//span[contains(text(), 'Show') and contains(text(), 'results')]/ancestor::button")
     },
 
+    "reset_filters": {
+        "primary": (By.XPATH, "//button[contains(@aria-label, 'Reset current filters')]"),
+        "fallback": (By.XPATH, "//button[contains(., 'Reset') or contains(., 'Clear all')]")
+    },
+
     "modal_dismiss": {
         "primary": (By.XPATH, "//button[contains(@class, 'artdeco-modal__dismiss')]"),
         "fallback": (By.XPATH, "//button[contains(@aria-label, 'Dismiss')]")
+    },
+
+    "pagination_next": {
+        "primary": (By.XPATH, "//button[contains(@class, 'pagination__button--next')]"),
+        "fallback": (By.XPATH, "//button[@aria-label='Next' or contains(@aria-label, 'next page')] | //button[.//span[text()='Next']]")
+    },
+
+    "login_username": {
+        "primary": (By.ID, "username"),
+        "fallback": (By.NAME, "session_key")
+    },
+
+    "login_password": {
+        "primary": (By.ID, "password"),
+        "fallback": (By.NAME, "session_password")
+    },
+
+    "login_submit": {
+        "primary": (By.CSS_SELECTOR, "button[type='submit']"),
+        "fallback": (By.XPATH, "//button[contains(text(), 'Sign in')]")
+    },
+
+    "login_error_password": {
+        "primary": (By.ID, "error-for-password"),
+        "fallback": (By.CSS_SELECTOR, "[id*='error-for-password']")
+    },
+
+    "login_error_username": {
+        "primary": (By.ID, "error-for-username"),
+        "fallback": (By.CSS_SELECTOR, "[id*='error-for-username']")
+    },
+
+    "login_alert": {
+        "primary": (By.CLASS_NAME, "alert-content"),
+        "fallback": (By.CSS_SELECTOR, ".alert-content")
+    },
+
+    "job_card_anchors": {
+        "primary": (By.TAG_NAME, "a"),
+        "fallback": (By.CSS_SELECTOR, "a")
+    },
+
+    "job_details_panes": [
+        (By.CLASS_NAME, "jobs-search-results-details__container"),
+        (By.CSS_SELECTOR, ".jobs-details"),
+        (By.CSS_SELECTOR, "[role='main']"),
+        (By.CLASS_NAME, "jobs-details__main-content")
+    ],
+
+    "job_search_list_container": {
+        "primary": (By.CSS_SELECTOR, ".jobs-search-results-list"),
+        "fallback": (By.CSS_SELECTOR, ".scaffold-layout__list-container, .jobs-search__results-list")
     }
 }
+
+# UI Text registry for localized or common strings
+UI_TEXT = {
+    "easy_apply": "Easy Apply",
+    "promoted": "Promoted",
+    "actively_recruiting": "Actively recruiting",
+    "be_an_early_applicant": "Be an early applicant",
+    "no_matching_jobs": "No matching jobs found",
+    
+    # Time labels used for filtering text lines
+    "ago_labels": ["week ago", "weeks ago", "days ago", "hours ago"],
+    
+    # Common labels to filter out from job card text
+    "filter_out_labels": [
+        "Easy Apply", "Promoted", "Actively recruiting", 
+        "Be an early applicant", "1 week ago", "2 weeks ago", 
+        "days ago", "hours ago", "Viewed"
+    ]
+}
+
 
 
 def get_locator(key: str, use_fallback: bool = False):

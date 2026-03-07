@@ -146,66 +146,68 @@ def run_extraction():
                 profile_path = os.path.join(os.getcwd(), "data", "profiles", str(candidate_id))
                 
                 browser = None
-                remaining_locations = list(locations)
-                
-                while remaining_locations:
-                    current_loc = str(remaining_locations[0]).strip()
+                for keyword in keywords:
+                    logger.info(f"--- Starting Keyword Sequential Pass: {keyword} ---")
                     
-                    try:
-                        if browser is None:
-                            logger.info(f"Initializing browser for {candidate_id}...")
-                            browser = Browser(profile_path=profile_path)
-                            if can_login:
-                                session = Session(browser.driver)
-                                session.login(username, password)
-                            else:
-                                logger.info("Running without login (using profile or public search)...")
+                    remaining_locations = list(locations)
+                    while remaining_locations:
+                        current_loc = str(remaining_locations[0]).strip()
+                        
+                        try:
+                            if browser is None:
+                                logger.info(f"Initializing browser for {candidate_id}...")
+                                browser = Browser(profile_path=profile_path)
+                                if can_login:
+                                    session = Session(browser.driver)
+                                    session.login(username, password)
+                                else:
+                                    logger.info("Running without login (using profile or public search)...")
 
-                        location_extraction_total = 0
-                        for current_dist in dist_list:
-                            if location_extraction_total >= jobs_per_zip:
-                                break
+                            location_extraction_total = 0
+                            for current_dist in dist_list:
+                                if location_extraction_total >= jobs_per_zip:
+                                    break
+                                    
+                                logger.info(f"  --- Keyword: {keyword} | Distance: {current_dist} mi ---")
                                 
-                            logger.info(f"  --- Distance Bucket: {current_dist} miles (Candidate Total: {total_candidate_extracted}) ---")
-                            
-                            extractor = JobExtractor(
-                                browser, 
-                                candidate_id=candidate_id, 
-                                csv_path=csv_filename, 
-                                distance_miles=current_dist,
-                                api_store=api_store,
-                                search_timespan=env_timespan,
-                                title_filters=title_filters
-                            )
-                            
-                            zip_match = re.search(r'\b\d{5,6}\b', current_loc)
-                            zipcode = zip_match.group(0) if zip_match else current_loc
+                                extractor = JobExtractor(
+                                    browser, 
+                                    candidate_id=candidate_id, 
+                                    csv_path=csv_filename, 
+                                    distance_miles=current_dist,
+                                    api_store=api_store,
+                                    search_timespan=env_timespan,
+                                    title_filters=title_filters
+                                )
+                                
+                                zip_match = re.search(r'\b\d{5,6}\b', current_loc)
+                                zipcode = zip_match.group(0) if zip_match else current_loc
 
-                            logger.info(f"Starting extraction for: {current_loc} at {current_dist}mi")
-                            newly_found = extractor.start_extract(keywords, locations=[current_loc], zipcode=zipcode, limit=total_run_limit)
-                            location_extraction_total += newly_found
-                            total_candidate_extracted += newly_found
-                        
-                        if remaining_locations:
-                             remaining_locations.pop(0)
-                        time.sleep(wait_between_locs)
-
-                    except Exception as e:
-                        err_msg = str(e).lower()
-                        logger.error(f"Error processing location {current_loc}: {e}")
-                        
-                        if any(x in err_msg for x in ['invalid session', 'disconnected', 'no such window', 'browser_crash', 'retry_failed']):
-                            if browser:
-                                try: browser.driver.quit()
-                                except: pass
-                            browser = None
-                        else:
+                                logger.info(f"Starting extraction for: {current_loc} at {current_dist}mi with keyword '{keyword}'")
+                                newly_found = extractor.start_extract([keyword], locations=[current_loc], zipcode=zipcode, limit=total_run_limit)
+                                location_extraction_total += newly_found
+                                total_candidate_extracted += newly_found
+                            
                             if remaining_locations:
-                                remaining_locations.pop(0)
-                            if browser:
-                                try: browser.driver.quit()
-                                except: pass
-                            browser = None
+                                 remaining_locations.pop(0)
+                            time.sleep(wait_between_locs)
+
+                        except Exception as e:
+                            err_msg = str(e).lower()
+                            logger.error(f"Error processing location {current_loc} for keyword {keyword}: {e}")
+                            
+                            if any(x in err_msg for x in ['invalid session', 'disconnected', 'no such window', 'browser_crash', 'retry_failed']):
+                                if browser:
+                                    try: browser.driver.quit()
+                                    except: pass
+                                browser = None
+                            else:
+                                if remaining_locations:
+                                    remaining_locations.pop(0)
+                                if browser:
+                                    try: browser.driver.quit()
+                                    except: pass
+                                browser = None
 
                 if browser:
                     try: browser.driver.quit()
@@ -234,7 +236,15 @@ def run_extraction():
         jobs_sample = []
         if buffered > 0:
             logger.info(f"📡 Final bulk insert: {buffered} jobs collected during this run.")
-            jobs_sample = [{"title": j.get('title'), "url": j.get('url'), "is_easy_apply": j.get('is_easy_apply', False)} for j in api_store.batch_buffer]
+            jobs_sample = [
+                {
+                    "title": j.get('title'), 
+                    "url": j.get('url'), 
+                    "apply_url": j.get('apply_url'),
+                    "is_easy_apply": j.get('is_easy_apply', False)
+                } 
+                for j in api_store.batch_buffer
+            ]
             api_store.flush_batches()
         else:
             logger.info("No new jobs collected — nothing to flush.")

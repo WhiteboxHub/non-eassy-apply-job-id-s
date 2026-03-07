@@ -11,8 +11,7 @@ LINKEDIN_BASE_URL = os.getenv("LINKEDIN_BASE_URL", "https://www.linkedin.com")
 
 # from bot.application.workflow import Workflow
 from bot.utils.delays import sleep_random
-from bot.utils.selectors import LOCATORS
-from bot.utils.selectors import LOCATORS
+from bot.utils.selectors import LOCATORS, get_locator, UI_TEXT
 from bot.utils.logger import logger
 from bot.utils.retry import retry
 from bot.utils.stale_guard import safe_action
@@ -110,7 +109,7 @@ class Search:
                              
                              job_id = JobIdentity.extract_job_id(link)
                              if job_id and not scroll_tracker.is_processed(job_id):
-                                 if 'Applied' not in link.text:
+                                 if UI_TEXT.get("applied", "Applied") not in link.text:
                                      if link.text not in self.blacklist:
                                          logger.info(f"Found new job: {job_id}", step="job_search", event="found_job")
                                          self.workflow.apply_to_job(job_id, self.phone_number)
@@ -168,20 +167,18 @@ class Search:
 
 
     def get_elements(self, type) -> list:
-        elements = []
-        element = self.locator[type]
-        
-        # Handle new selector format with primary/fallback
-        if isinstance(element, dict):
-            element = element.get('primary', element.get('fallback'))
-        
-        if self.is_present(element):
-            elements = self.browser.find_elements(element[0], element[1])
-        return elements
+        locator = get_locator(type)
+        if not locator:
+            return []
+        return self.browser.find_elements(*locator)
 
-    def is_present(self, locator):
-        # Handle new selector format with primary/fallback
-        if isinstance(locator, dict):
-            locator = locator.get('primary', locator.get('fallback'))
-        
-        return len(self.browser.find_elements(locator[0], locator[1])) > 0
+    def is_present(self, locator_or_key):
+        locator = locator_or_key
+        if isinstance(locator_or_key, str):
+            locator = get_locator(locator_or_key)
+        elif isinstance(locator_or_key, dict):
+            locator = locator_or_key.get('primary', locator_or_key.get('fallback'))
+            
+        if not locator:
+            return False
+        return len(self.browser.find_elements(*locator)) > 0

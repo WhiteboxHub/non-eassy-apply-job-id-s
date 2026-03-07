@@ -24,6 +24,8 @@ from bot.utils.human_interaction import HumanInteraction
 
 import csv
 import os
+import re
+from bot.utils.selectors import LOCATORS, get_locator, UI_TEXT
 
 class JobExtractor(Search):
     def __init__(self, browser, candidate_id="default", blacklist=None, experience_level=None, csv_path=None, distance_miles=50, api_store=None, search_timespan="r86400", title_filters=None):
@@ -44,7 +46,7 @@ class JobExtractor(Search):
         if self.csv_path and not os.path.exists(self.csv_path):
             with open(self.csv_path, 'w', newline='', encoding='utf-8') as f:
                 writer = csv.writer(f, quoting=csv.QUOTE_NONNUMERIC)
-                writer.writerow(['source_job_id', 'title', 'company', 'location', 'zipcode', 'url', 'date_extracted', 'is_non_easy_apply'])
+                writer.writerow(['source_job_id', 'title', 'company', 'location', 'zipcode', 'linkedin_url', 'apply_url', 'date_extracted', 'is_non_easy_apply'])
         
         # batch_buffer lives on api_store now (shared across all distance buckets)
 
@@ -67,12 +69,11 @@ class JobExtractor(Search):
         positions = [positions] if isinstance(positions, str) else positions
         locations = [locations] if isinstance(locations, str) else locations
 
-        # Randomize combinations
+        # combos = [] # Not used
         combo_list = []
         for p in positions:
             for l in locations:
                 combo_list.append((p, l))
-        random.shuffle(combo_list)
 
         total_extracted = 0
         try:
@@ -94,6 +95,7 @@ class JobExtractor(Search):
         return total_extracted
 
     def extraction_loop(self, position, location, zipcode="", limit=15):
+        self.position = position # Store current keyword for filter session tracking
         jobs_per_page = 0
         start_time = time.time()
         human = HumanInteraction(self.browser)
@@ -117,7 +119,7 @@ class JobExtractor(Search):
                     logger.error("Browser session lost during loop.", step="job_extract")
                     raise Exception("INVALID_SESSION_RESTART")
 
-                if "No matching jobs found" in self.browser.page_source:
+                if UI_TEXT["no_matching_jobs"] in self.browser.page_source:
                     logger.info("No more jobs found for this search.", step="job_extract", event="no_results")
                     break
 
@@ -131,16 +133,19 @@ class JobExtractor(Search):
                 max_scrolls = 20  # Maximum scrolls to prevent infinite loops
                 
                 for scroll_num in range(max_scrolls):
-                    # Scroll to bottom
-                    self.browser.execute_script("""
-                        var list = document.querySelector('.jobs-search-results-list') || 
-                                   document.querySelector('.scaffold-layout__list-container') ||
-                                   document.querySelector('.jobs-search__results-list');
-                        if (list) {
-                            list.scrollTop = list.scrollHeight;
-                        } else {
+                    scroll_container = get_locator("job_search_list_container")
+                    fallback_container = get_locator("job_search_list_container", use_fallback=True)
+                    
+                    self.browser.execute_script(f"""
+                        var container = document.querySelector('{scroll_container[1]}') || 
+                                        document.querySelector('{fallback_container[1]}') ||
+                                        document.querySelector('.jobs-search-results-list') ||
+                                        window;
+                        if (container === window) {{
                             window.scrollTo(0, document.body.scrollHeight);
-                        }
+                        }} else {{
+                            container.scrollTop = container.scrollHeight;
+                        }}
                     """)
                     time.sleep(1.2)  # Balanced wait time
                     
@@ -209,18 +214,24 @@ class JobExtractor(Search):
                             found_new_in_iteration = True
                             processed_job_ids_on_page.add(job_id)
                             
-                            is_easy = "Easy Apply" in link.text
+                            is_easy = UI_TEXT["easy_apply"] in link.text
                             if is_easy:
                                 logger.info(f"✅ Found EASY APPLY job: {job_id}")
                             else:
                                 logger.info(f"✅ Found STANDARD job: {job_id}")
 
-                            # Apply strict title filter
+                            # Apply strict title filter using word boundaries
                             if self.title_filters:
-                                link_lower = link.text.lower()
-                                matched = any(f.lower() in link_lower for f in self.title_filters)
+                                link_text = link.text.replace('\n', ' ')
+                                matched = False
+                                for f in self.title_filters:
+                                    pattern = r'\b' + re.escape(f) + r'\b'
+                                    if re.search(pattern, link_text, re.IGNORECASE):
+                                        matched = True
+                                        break
+                                
                                 if not matched:
-                                    title_preview = link.text.split('\n')[0][:50]
+                                    title_preview = link_text.split('|')[0].strip()[:50]
                                     logger.info(f"🚫 Skipping NON-MATCHING title: {title_preview} (Job ID {job_id})")
                                     self.seen_jobs.add(job_id)
                                     continue
@@ -241,7 +252,9 @@ class JobExtractor(Search):
                     if not found_new_in_iteration or extracted_total >= limit:
                         break
                     
-                    time.sleep(0.5)
+                    # Micro-scroll to trigger lazy loading of the next batch of cards
+                    self.browser.execute_script("window.scrollBy(0, 300);")
+                    time.sleep(0.8)
                 
                 logger.info(f"Finished Page {int(jobs_per_page/25) + 1}: {extracted_on_page} NEW links saved. Total so far: {extracted_total}/{limit}", step="job_extract")
                 logger.info(f"📥 Buffer now holds {len(self.api_store.batch_buffer) if self.api_store else 0} jobs total (flush at end of run)", step="job_extract")
@@ -252,7 +265,7 @@ class JobExtractor(Search):
 
                 # --- STEP 3: Move to Next Page ---
                 try:
-                    next_button = self.browser.find_element(By.XPATH, "//button[@aria-label='Next' or contains(@class, 'pagination__button--next')]")
+                    next_button = self.browser.find_element(*get_locator("pagination_next"))
                     if next_button and next_button.is_enabled():
                         logger.info("Clicking NEXT button...", step="job_extract")
                         self.browser.execute_script("arguments[0].click();", next_button)
@@ -313,26 +326,40 @@ class JobExtractor(Search):
         # f_TPR filter for search timespan (e.g., r86400 for 24h, r604800 for 7d)
         search_time_filter = f"&f_TPR={self.search_timespan}" 
         location_param = f"&location={formatted_location}"
-        # Wrap keyword in quotes (%22) for strict phrase matching to avoid broad matches like UI for AI searches
-        keyword_param = f"%22{position}%22"
+        # URL encode keyword and establish Smart Quoting
+        encoded_keyword = position.replace(' ', '%20')
+        if len(position) < 4:
+            keyword_param = f"%22{encoded_keyword}%22"
+        else:
+            keyword_param = encoded_keyword
+
+        # --- Filter Caching Logic ---
+        # If we have captured the numeric IDs (f_T) for our title filters previously, 
+        # add them to the URL directly to avoid UI clicking "again and again".
+        filter_param = ""
+        cached_filters = getattr(self.browser, f"f_T_cache_{position}", None)
+        if cached_filters:
+            filter_param = f"&f_T={cached_filters}"
+            
         url = (f"{LINKEDIN_BASE_URL}/jobs/search/?" + "keywords=" +
                keyword_param + location_param + search_time_filter + "&start=" + str(jobs_per_page) + 
-               experience_level_param + distance_param + sort_param + extra_params)
+               experience_level_param + distance_param + sort_param + extra_params + filter_param)
         
         logger.info(f"Navigating to: {url}", step="job_extract", event="navigation")
         self.browser.get(url)
         time.sleep(3)
         self.browser.execute_script("window.scrollTo(0, 0);")
+        
+        # Apply native filters (Titles) IF they are not already in the URL
+        if not cached_filters:
+            self.apply_native_title_filters()
 
     def apply_native_title_filters(self):
         """Attempts to use the native LinkedIn UI to filter by Title checkboxes ONLY."""
-        import re
         if not self.title_filters:
             return
             
         try:
-            import re
-            from bot.utils.selectors import get_locator
             logger.info("Applying native Title filters via UI...", step="job_extract")
             
             # Click 'All filters' button — selector managed in selectors.py
@@ -351,33 +378,85 @@ class JobExtractor(Search):
             
             self.browser.execute_script("arguments[0].click();", all_filters_btn)
             time.sleep(3)
+
+            # --- NEW Step: Reset filters first to clear LinkedIn's 'memory' of previous runs ---
+            try:
+                # Optimized check: If we've already done this for this search session (per browser), skip
+                session_key = f"filters_applied_{self.candidate_id}_{self.position}"
+                if getattr(self.browser, session_key, False):
+                    # We still check if they are visible in the URL or the modal might have closed, 
+                    # but usually LinkedIn carries them in the URL once clicked.
+                    # To be safe, we re-apply if it's the first page.
+                    pass 
+
+                reset_loc = get_locator("reset_filters")
+                reset_btns = self.browser.find_elements(*reset_loc)
+                if reset_btns and reset_btns[0].is_displayed():
+                    self.browser.execute_script("arguments[0].click();", reset_btns[0])
+                    logger.info("♻️ Reset existing filters.", step="job_extract")
+                    time.sleep(2) # Wait for UI to update
+            except Exception as ree:
+                logger.debug(f"Reset filters failed (might not be visible or already clear): {ree}")
             
             # Find labels inside the Title section — selector managed in selectors.py
             title_section_labels = self.browser.find_elements(*get_locator("title_filter_labels"))
             if not title_section_labels:
+                # Try fallback
                 title_section_labels = self.browser.find_elements(*get_locator("title_filter_labels", use_fallback=True))
+
+            if not title_section_labels:
+                 logger.info("Could not find any Title filter labels in the UI.", step="job_extract")
+            else:
+                # Try to expand "Show more" if it exists
+                try:
+                    show_more_loc = get_locator("title_filter_show_more")
+                    show_more_btn = self.browser.find_element(*show_more_loc)
+                    if show_more_btn and show_more_btn.is_displayed():
+                        logger.info("Clicking 'Show more' in Title section...", step="job_extract")
+                        self.browser.execute_script("arguments[0].click();", show_more_btn)
+                        time.sleep(1.5)
+                        # Re-fetch labels after expansion
+                        title_section_labels = self.browser.find_elements(*get_locator("title_filter_labels"))
+                except:
+                    pass
 
             clicked_any = False
             for label in title_section_labels:
                 try:
+                    # Scroll to element to ensure it's interactable
+                    self.browser.execute_script("arguments[0].scrollIntoView({block: 'center'});", label)
+                    time.sleep(0.1)
+                    
                     text_content = label.text.strip()
                     first_line = text_content.split('\n')[0].strip()
                     if not first_line:
                         continue
 
                     for f in self.title_filters:
-                        # Word-boundary regex: "AI" won't match inside "Paid" or "Jobright.ai"
-                        pattern = r'\b' + re.escape(f) + r'\b'
+                        # Precise matching: Use regex with word boundaries to ensure "AI" matches "AI Engineer" 
+                        # but NOT "Environmental sustainability".
+                        # Also avoid matching on ".ai" domains/company names for the "AI" short filter.
+                        import re
+                        pattern = r'\b' + re.escape(f.strip()) + r'\b'
+                        
+                        # Special guard: If filter is "AI", ensure it's not preceded by a dot (e.g., ".ai")
+                        if f.strip().lower() == "ai" and ".ai" in first_line.lower():
+                            if not re.search(r'(?<!\.)\b' + re.escape(f.strip()) + r'\b', first_line, re.IGNORECASE):
+                                continue
+
                         if re.search(pattern, first_line, re.IGNORECASE):
                             self.browser.execute_script("arguments[0].click();", label)
                             logger.info(f"✅ Checked Title filter: '{first_line}'")
-                            time.sleep(0.8)
+                            time.sleep(0.5)
                             clicked_any = True
                             break
                 except:
                     pass
             
             if clicked_any:
+                # Mark as filtered for this session to avoid redundant clicks if URL maintains state
+                setattr(self.browser, f"filters_applied_{self.candidate_id}_{self.position}", True)
+
                 # Click 'Show results' — selector managed in selectors.py
                 try:
                     show_loc = get_locator("all_filters_show_results")
@@ -393,6 +472,17 @@ class JobExtractor(Search):
                     self.browser.execute_script("arguments[0].click();", show_btn)
                     time.sleep(5)
                     logger.info("Successfully applied native Title filters.", step="job_extract")
+                    
+                    # --- Capture the f_T IDs from URL for next time (Distance 10/25/50) ---
+                    try:
+                        current_url = self.browser.current_url
+                        ft_match = re.search(r'[?&]f_T=([^&]+)', current_url)
+                        if ft_match:
+                            ft_value = ft_match.group(1)
+                            setattr(self.browser, f"f_T_cache_{self.position}", ft_value)
+                            logger.info(f"💾 Captured Title Filter IDs: {ft_value}. Future searches for this keyword will use URL parameter directly.", step="job_extract")
+                    except Exception as e_ft:
+                        logger.debug(f"Could not capture f_T parameter from URL: {e_ft}")
             else:
                 logger.info("No matching Title checkboxes found in the UI. Relying on code-level filter.", step="job_extract")
                 # Close modal — selector managed in selectors.py
@@ -415,8 +505,8 @@ class JobExtractor(Search):
             # Get all text lines, filtered for empty space
             all_lines = [l.strip() for l in element.text.split('\n') if l.strip()]
             
-            # Remove badges/labels from lines to find real data
-            filter_labels = ["Easy Apply", "Promoted", "Actively recruiting", "Be an early applicant", "1 week ago", "2 weeks ago", "days ago", "hours ago"]
+            # Remove badges/labels from lines to find real data — labels managed in selectors.py
+            filter_labels = UI_TEXT["filter_out_labels"]
             clean_lines = []
             for line in all_lines:
                 if not any(label in line for label in filter_labels):
@@ -480,8 +570,10 @@ class JobExtractor(Search):
 
             # --- Start: ATS Link Extraction ---
             # Easy Apply jobs stay on LinkedIn — skip ATS extraction entirely for them
-            url = f"https://www.linkedin.com/jobs/view/{job_id}"
-            logger.info(f"🔗 Default URL set: {url}", step="extract_job")
+            linkedin_url = f"https://www.linkedin.com/jobs/view/{job_id}"
+            apply_url = linkedin_url
+            
+            logger.info(f"🔗 LinkedIn URL: {linkedin_url}", step="extract_job")
             
             if is_easy_apply:
                 # No external ATS link for Easy Apply — LinkedIn URL is correct as-is
@@ -499,16 +591,11 @@ class JobExtractor(Search):
                     print(f"[ATS DEBUG] Job Title: {title}")
                     print(f"[ATS DEBUG] Searching for Apply button (primary selector)...")
 
-                    # Try to find the button inside the details pane first to avoid global filter buttons
+                    # Try to find the button inside the details pane first to avoid global filter buttons — selectors managed in selectors.py
                     details_pane = None
-                    for selector_type, selector_val in [
-                        (By.CLASS_NAME, "jobs-search-results-details__container"),
-                        (By.CSS_SELECTOR, ".jobs-details"),
-                        (By.CSS_SELECTOR, "[role='main']"),
-                        (By.CLASS_NAME, "jobs-details__main-content")
-                    ]:
+                    for loc in get_locator("job_details_panes"):
                         try:
-                            panes = self.browser.driver.find_elements(selector_type, selector_val)
+                            panes = self.browser.find_elements(*loc)
                             if panes and panes[0].is_displayed():
                                 details_pane = panes[0]
                                 break
@@ -546,12 +633,12 @@ class JobExtractor(Search):
                             
                             # Screenshot
                             screenshot_path = os.path.join(debug_dir, f"no_apply_{job_id}_{timestamp}.png")
-                            self.browser.driver.save_screenshot(screenshot_path)
+                            self.browser.save_screenshot(screenshot_path)
                             
                             # HTML source
                             html_path = os.path.join(debug_dir, f"no_apply_{job_id}_{timestamp}.html")
                             with open(html_path, "w", encoding="utf-8") as f:
-                                f.write(self.browser.driver.page_source)
+                                f.write(self.browser.page_source)
                                 
                             print(f"[ATS DEBUG] 📸 Diagnostic capture saved to {debug_dir}")
                             logger.info(f"📸 Diagnostic capture (screenshot/HTML) saved for debugging.", step="extract_job")
@@ -564,76 +651,66 @@ class JobExtractor(Search):
                         redir_url = btn.get_attribute("href")
                         
                         if redir_url:
-                            url = decode_linkedin_redir(redir_url)
-                            print(f"[ATS DEBUG] ✅ Decoded URL from href: {url}")
-                            logger.info(f"✨ Captured ATS link: {url[:60]}...", step="extract_job")
+                            apply_url = decode_linkedin_redir(redir_url)
+                            print(f"[ATS DEBUG] ✅ Decoded URL from href: {apply_url}")
+                            logger.info(f"✨ Captured ATS link: {apply_url[:60]}...", step="extract_job")
                         else:
                             print(f"[ATS DEBUG] → CASE 3: No href — will CLICK the button")
                             logger.info(f"🖱️ Clicking 'Apply' button to capture ATS link...", step="extract_job")
-                            original_window = self.browser.current_window_handle
-                            original_url = self.browser.current_url
-                            print(f"[ATS DEBUG]   Original URL: {original_url}")
+                            
+                            try:
+                                original_window = self.browser.current_window_handle
+                                original_url = self.browser.current_url
+                                print(f"[ATS DEBUG]   Original URL: {original_url}")
+                            except Exception as ee:
+                                print(f"[ATS DEBUG] ❌ Failed to get window handles: {ee}")
+                                raise ee
                             
                             success = False
                             # Try all buttons found if the first one doesn't work
                             for i, candidate_btn in enumerate(apply_buttons):
                                 print(f"[ATS DEBUG]   --- Click Attempt on button {i+1}/{len(apply_buttons)} ---")
                                 
-                                # Method A: Javascript click
-                                print(f"[ATS DEBUG]   Method A: Javascript click...")
-                                self.browser.execute_script("arguments[0].click();", candidate_btn)
-                                time.sleep(4)
+                                # We try two ways for each button: JS click and Native click
+                                for method in ["JS", "Native"]:
+                                    try:
+                                        print(f"[ATS DEBUG]   Method: {method} click...")
+                                        if method == "JS":
+                                            self.browser.execute_script("arguments[0].click();", candidate_btn)
+                                        else:
+                                            candidate_btn.click()
+                                        
+                                        time.sleep(4)
+                                        
+                                        handles = self.browser.window_handles
+                                        if len(handles) > 1:
+                                            self.browser.switch_to.window(handles[1])
+                                            apply_url = self.browser.current_url
+                                            logger.info(f"✨ Captured ATS link (new tab): {apply_url[:60]}...", step="extract_job")
+                                            print(f"[ATS DEBUG]   ✅ SUCCESS (New Tab): {apply_url}")
+                                            self.browser.close()
+                                            self.browser.switch_to.window(original_window)
+                                            success = True
+                                            break
+                                        elif self.browser.current_url != original_url and "linkedin.com" not in self.browser.current_url:
+                                            apply_url = self.browser.current_url
+                                            logger.info(f"✨ Captured ATS link (same tab): {apply_url[:60]}...", step="extract_job")
+                                            print(f"[ATS DEBUG]   ✅ SUCCESS (Same Tab): {apply_url}")
+                                            self.browser.back()
+                                            time.sleep(3)
+                                            success = True
+                                            break
+                                    except Exception as ce:
+                                        print(f"[ATS DEBUG]   {method} click failed: {ce}")
+                                        try: self.browser.switch_to.window(original_window)
+                                        except: pass
                                 
-                                handles = self.browser.window_handles
-                                if len(handles) > 1:
-                                    self.browser.switch_to.window(handles[1])
-                                    url = self.browser.current_url
-                                    logger.info(f"✨ Captured ATS link (new tab): {url[:60]}...", step="extract_job")
-                                    print(f"[ATS DEBUG]   ✅ SUCCESS (New Tab): {url}")
-                                    self.browser.close()
-                                    self.browser.switch_to.window(original_window)
-                                    success = True
-                                    break
-                                elif self.browser.current_url != original_url and "linkedin.com" not in self.browser.current_url:
-                                    url = self.browser.current_url
-                                    logger.info(f"✨ Captured ATS link (same tab): {url[:60]}...", step="extract_job")
-                                    print(f"[ATS DEBUG]   ✅ SUCCESS (Same Tab): {url}")
-                                    self.browser.back()
-                                    time.sleep(3)
-                                    success = True
-                                    break
-                                
-                                # Method B: Native click (if A failed)
-                                print(f"[ATS DEBUG]   Method B: Native Selenium click...")
-                                try:
-                                    candidate_btn.click()
-                                    time.sleep(4)
-                                except Exception as ce:
-                                    print(f"[ATS DEBUG]   Native click failed: {ce}")
-                                    
-                                handles = self.browser.window_handles
-                                if len(handles) > 1:
-                                    self.browser.switch_to.window(handles[1])
-                                    url = self.browser.current_url
-                                    logger.info(f"✨ Captured ATS link (new tab): {url[:60]}...", step="extract_job")
-                                    print(f"[ATS DEBUG]   ✅ SUCCESS (Native New Tab): {url}")
-                                    self.browser.close()
-                                    self.browser.switch_to.window(original_window)
-                                    success = True
-                                    break
-                                elif self.browser.current_url != original_url and "linkedin.com" not in self.browser.current_url:
-                                    url = self.browser.current_url
-                                    logger.info(f"✨ Captured ATS link (same tab): {url[:60]}...", step="extract_job")
-                                    print(f"[ATS DEBUG]   ✅ SUCCESS (Native Same Tab): {url}")
-                                    self.browser.back()
-                                    time.sleep(3)
-                                    success = True
-                                    break
+                                if success: break
 
                             if not success:
-                                current = self.browser.current_url
-                                print(f"[ATS DEBUG]   ⚠️ All click attempts failed. Current URL: {current}")
+                                print(f"[ATS DEBUG]   ⚠️ All click attempts failed.")
                                 logger.warning("Tried clicking Apply but could not capture external URL.", step="extract_job")
+                                apply_url = linkedin_url
                                 
                                 # --- Click Failure Diagnostic Capture ---
                                 try:
@@ -641,15 +718,15 @@ class JobExtractor(Search):
                                     os.makedirs(debug_dir, exist_ok=True)
                                     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
                                     screenshot_path = os.path.join(debug_dir, f"click_failed_{job_id}_{timestamp}.png")
-                                    self.browser.driver.save_screenshot(screenshot_path)
+                                    self.browser.save_screenshot(screenshot_path)
                                     html_path = os.path.join(debug_dir, f"click_failed_{job_id}_{timestamp}.html")
                                     with open(html_path, "w", encoding="utf-8") as f:
-                                        f.write(self.browser.driver.page_source)
+                                        f.write(self.browser.page_source)
                                     print(f"[ATS DEBUG] 📸 Click failure diagnostic saved to {debug_dir}")
                                 except Exception: pass
-                                # ----------------------------------------
+                                 # ----------------------------------------
                     
-                    print(f"[ATS DEBUG] Final URL saved: {url}")
+                    print(f"[ATS DEBUG] Final Apply URL: {apply_url}")
                     print(f"[ATS DEBUG] ─────────────────────────────────────────\n")
 
                 except Exception as e:
@@ -657,10 +734,10 @@ class JobExtractor(Search):
                     logger.debug(f"Failed to extract external apply link: {e}")
             # --- End: ATS Link Extraction ---
 
-            # Database Save
+            # Database Save - url column stores LinkedIn URL, apply_url column stores ATS/Final URL
             self.store.con.execute(
-                 "INSERT OR REPLACE INTO extracted_jobs (id, job_id, url, title, company, location, date_extracted, candidate_id, is_easy_apply) VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?, ?)",
-                 [job_id, job_id, url, title, company, location, self.candidate_id, is_easy_apply]
+                 "INSERT OR REPLACE INTO extracted_jobs (id, job_id, url, apply_url, title, company, location, date_extracted, candidate_id, is_easy_apply) VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?, ?)",
+                 [job_id, job_id, linkedin_url, apply_url, title, company, location, self.candidate_id, is_easy_apply]
              )
             self.store.con.commit()
              
@@ -668,7 +745,8 @@ class JobExtractor(Search):
             if self.csv_path:
                 with open(self.csv_path, 'a', newline='', encoding='utf-8') as f:
                     writer = csv.writer(f, quoting=csv.QUOTE_NONNUMERIC)
-                    writer.writerow([job_id, title, company, location, zipcode, url, time.strftime('%Y-%m-%d %H:%M:%S'), not is_easy_apply])
+                    # format: source_job_id, title, company, location, zipcode, linkedin_url, apply_url, date_extracted, is_non_easy_apply
+                    writer.writerow([job_id, title, company, location, zipcode, linkedin_url, apply_url, time.strftime('%Y-%m-%d %H:%M:%S'), not is_easy_apply])
                 
             # API Save (Remote)
             job_data = {
@@ -676,12 +754,13 @@ class JobExtractor(Search):
                 'company': company,
                 'location': location,
                 'zipcode': zipcode,
-                'url': url,
+                'url': linkedin_url,
+                'apply_url': apply_url,
                 'source_job_id': job_id,
                 'is_easy_apply': is_easy_apply
             }
             if self.api_store:
-                # Accumulate in the shared api_store buffer (flushed once at end of full run)
+                # Accumulate in the shared api_store buffer
                 self.api_store.batch_buffer.append(job_data)
                 logger.info(f"📥 Queued for bulk insert (buffer size: {len(self.api_store.batch_buffer)})", step="extract_job")
                 
@@ -689,7 +768,7 @@ class JobExtractor(Search):
             if hasattr(self, 'mysql_store') and self.mysql_store:
                 self.mysql_store.insert_position(job_data)
             
-            logger.info(f"Saved job: {title} at {company} ({location}) - Zipcode: {zipcode}", step="extract_job")
+            logger.info(f"Saved job: {title} at {company} ({location})", step="extract_job")
                 
         except Exception as e:
              logger.debug(f"Failed to save job {job_id}: {e}")

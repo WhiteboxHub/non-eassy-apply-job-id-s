@@ -1,5 +1,6 @@
 from selenium.webdriver.common.by import By
 from bot.utils.logger import logger
+from bot.utils.selectors import get_locator
 import re
 
 class JobIdentity:
@@ -12,7 +13,7 @@ class JobIdentity:
         try:
             # Primary: explicit attribute set on many LinkedIn job cards
             job_id = element.get_attribute("data-job-id")
-            if job_id:
+            if job_id and job_id.isdigit():
                 return job_id
 
             # Fallback 1: href may contain '/view/<job_id>' or query param 'currentJobId'
@@ -28,7 +29,7 @@ class JobIdentity:
 
             # Fallback 2: sometimes an inner anchor contains the href
             try:
-                anchors = element.find_elements(By.TAG_NAME, 'a')
+                anchors = element.find_elements(*get_locator("job_card_anchors"))
                 for a in anchors:
                     ahref = a.get_attribute('href') or ''
                     if ahref:
