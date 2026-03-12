@@ -145,5 +145,10 @@ LOCATORS = {
     "guest_modal_dismiss": {
         "primary": (By.XPATH, "//button[contains(@class, 'modal__dismiss') or contains(@aria-label, 'Dismiss') or contains(@class, 'artdeco-modal__dismiss')]"),
         "fallback": (By.CSS_SELECTOR, "button.modal__dismiss, button[aria-label='Dismiss'], .artdeco-modal__dismiss")
+    },
+    
+    "safety_reminder_continue": {
+        "primary": (By.XPATH, "//button[.//span[contains(text(), 'Continue applying')]]"),
+        "fallback": (By.XPATH, "//button[contains(@aria-label, 'Continue applying') or contains(., 'Continue applying')]")
     }
 }

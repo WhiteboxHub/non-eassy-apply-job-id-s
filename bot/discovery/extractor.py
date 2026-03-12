@@ -152,14 +152,15 @@ class JobExtractor(Search):
                         var container = document.querySelector('{scroll_container[1]}') || 
                                         document.querySelector('{fallback_container[1]}') ||
                                         document.querySelector('.jobs-search-results-list') ||
+                                        document.querySelector('.scaffold-layout__list-container') ||
                                         window;
                         if (container === window) {{
-                            window.scrollTo(0, document.body.scrollHeight);
+                            window.scrollBy(0, 1000);
                         }} else {{
-                            container.scrollTop = container.scrollHeight;
+                            container.scrollBy(0, 1000);
                         }}
                     """)
-                    time.sleep(1.2)  # Balanced wait time
+                    time.sleep(2.0)  # More time for loading
                     
                     new_count = len(self.get_elements("links"))
                     
@@ -280,8 +281,18 @@ class JobExtractor(Search):
                         break
                     
                     # Micro-scroll to trigger lazy loading of the next batch of cards
-                    self.browser.execute_script("window.scrollBy(0, 300);")
-                    time.sleep(0.8)
+                    # We scroll the CONTAINER if found, otherwise window
+                    self.browser.execute_script("""
+                        var list = document.querySelector('.jobs-search-results-list') || 
+                                   document.querySelector('.scaffold-layout__list-container') ||
+                                   window;
+                        if (list === window) {
+                            window.scrollBy(0, 400);
+                        } else {
+                            list.scrollBy(0, 400);
+                        }
+                    """)
+                    time.sleep(1.0)
                 
                 logger.info(f"Finished Page {int(jobs_per_page/25) + 1}: {extracted_on_page} NEW links saved. Total so far: {extracted_total}/{limit}", step="job_extract")
                 logger.info(f"📥 Buffer now holds {len(self.api_store.batch_buffer) if self.api_store else 0} jobs total (flush at end of run)", step="job_extract")
@@ -768,43 +779,70 @@ class JobExtractor(Search):
                             success = False
                             # Try all buttons found if the first one doesn't work
                             for i, candidate_btn in enumerate(apply_buttons):
-                                print(f"[ATS DEBUG]   --- Click Attempt on button {i+1}/{len(apply_buttons)} ---")
-                                
-                                # We try two ways for each button: JS click and Native click
-                                for method in ["JS", "Native"]:
+                                try:
+                                    print(f"[ATS DEBUG]   --- Click Attempt on button {i+1}/{len(apply_buttons)} ---")
+                                    
+                                    # Try JS click first
+                                    self.browser.execute_script("arguments[0].click();", candidate_btn)
+                                    time.sleep(2)
+                                    
+                                    # Check for LinkedIn "Safety Reminder" modal IMMEDIATELY
                                     try:
-                                        print(f"[ATS DEBUG]   Method: {method} click...")
-                                        if method == "JS":
-                                            self.browser.execute_script("arguments[0].click();", candidate_btn)
-                                        else:
+                                        safety_loc = get_locator("safety_reminder_continue")
+                                        safety_btns = self.browser.find_elements(*safety_loc)
+                                        for s_btn in safety_btns:
+                                            if s_btn.is_displayed():
+                                                logger.info("Dismissing 'Safety Reminder' modal...", step="extract_job")
+                                                self.browser.execute_script("arguments[0].click();", s_btn)
+                                                time.sleep(2)
+                                    except: pass
+
+                                    # If no new tab, try native click (LinkedIn sometimes blocks JS clicks on buttons)
+                                    handles = self.browser.window_handles
+                                    if len(handles) == 1 and self.browser.current_url == original_url:
+                                        try:
                                             candidate_btn.click()
+                                            time.sleep(2)
+                                            # Check safety modal again after native click
+                                            safety_btns = self.browser.find_elements(*safety_loc)
+                                            for s_btn in safety_btns:
+                                                if s_btn.is_displayed():
+                                                    self.browser.execute_script("arguments[0].click();", s_btn)
+                                                    time.sleep(2)
+                                        except: pass
+
+                                    time.sleep(3)
+                                    
+                                    handles = self.browser.window_handles
+                                    if len(handles) > 1:
+                                        self.browser.switch_to.window(handles[1])
+                                        # Wait for URL to change from about:blank or similar
+                                        time.sleep(3)
+                                        apply_url = self.browser.current_url
                                         
-                                        time.sleep(4)
-                                        
-                                        handles = self.browser.window_handles
-                                        if len(handles) > 1:
-                                            self.browser.switch_to.window(handles[1])
-                                            apply_url = self.browser.current_url
+                                        # Validate URL: must be a real web link, not internal Chrome pages
+                                        if apply_url.startswith("http"):
                                             logger.info(f"✨ Captured ATS link (new tab): {apply_url[:60]}...", step="extract_job")
                                             print(f"[ATS DEBUG]   ✅ SUCCESS (New Tab): {apply_url}")
                                             self.browser.close()
                                             self.browser.switch_to.window(original_window)
                                             success = True
                                             break
-                                        elif self.browser.current_url != original_url and "linkedin.com" not in self.browser.current_url:
-                                            apply_url = self.browser.current_url
-                                            logger.info(f"✨ Captured ATS link (same tab): {apply_url[:60]}...", step="extract_job")
-                                            print(f"[ATS DEBUG]   ✅ SUCCESS (Same Tab): {apply_url}")
-                                            self.browser.back()
-                                            time.sleep(3)
-                                            success = True
-                                            break
-                                    except Exception as ce:
-                                        print(f"[ATS DEBUG]   {method} click failed: {ce}")
-                                        try: self.browser.switch_to.window(original_window)
-                                        except: pass
-                                
-                                if success: break
+                                        else:
+                                            print(f"[ATS DEBUG]   ⚠️ Ignoring internal/invalid URL: {apply_url}")
+                                            self.browser.close()
+                                            self.browser.switch_to.window(original_window)
+                                    elif self.browser.current_url != original_url and "linkedin.com" not in self.browser.current_url:
+                                        apply_url = self.browser.current_url
+                                        logger.info(f"✨ Captured ATS link (same tab): {apply_url[:60]}...", step="extract_job")
+                                        print(f"[ATS DEBUG]   ✅ SUCCESS (Same Tab): {apply_url}")
+                                        self.browser.back()
+                                        time.sleep(3)
+                                        success = True
+                                        break
+                                except Exception as e:
+                                    print(f"[ATS DEBUG]   ❌ Click on button {i+1} failed: {e}")
+                                    continue
 
                             if not success:
                                 print(f"[ATS DEBUG]   ⚠️ All click attempts failed.")
