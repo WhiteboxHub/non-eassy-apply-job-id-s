@@ -11,7 +11,8 @@ LINKEDIN_BASE_URL = os.getenv("LINKEDIN_BASE_URL", "https://www.linkedin.com")
 
 # from bot.application.workflow import Workflow
 from bot.utils.delays import sleep_random
-from bot.utils.selectors import LOCATORS, get_locator, UI_TEXT
+from bot.utils.selectors import LOCATORS
+from bot.utils.selector_helpers import get_locator, UI_TEXT
 from bot.utils.logger import logger
 from bot.utils.retry import retry
 from bot.utils.stale_guard import safe_action

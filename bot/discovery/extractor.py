@@ -25,7 +25,8 @@ from bot.utils.human_interaction import HumanInteraction
 import csv
 import os
 import re
-from bot.utils.selectors import LOCATORS, get_locator, UI_TEXT
+from bot.utils.selectors import LOCATORS
+from bot.utils.selector_helpers import get_locator, UI_TEXT
 
 class JobExtractor(Search):
     def __init__(self, browser, candidate_id="default", blacklist=None, experience_level=None, csv_path=None, distance_miles=50, api_store=None, search_timespan="r86400", title_filters=None, job_type_filters=None):

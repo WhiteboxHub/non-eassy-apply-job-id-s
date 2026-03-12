@@ -1,6 +1,6 @@
 from selenium.webdriver.common.by import By
 from bot.utils.logger import logger
-from bot.utils.selectors import get_locator
+from bot.utils.selector_helpers import get_locator
 import re
 
 class JobIdentity:

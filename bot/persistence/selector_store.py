@@ -13,29 +13,29 @@ Table schema:
     last_synced  TIMESTAMP
   )
 """
-import duckdb
+import sqlite3
 import logging
 from datetime import datetime
 from pathlib import Path
 
 log = logging.getLogger(__name__)
 
-SELECTORS_DB_PATH = "data/selectors.duckdb"
+SELECTORS_DB_PATH = "data/bot_data.sqlite"
 
 
 class SelectorStore:
     def __init__(self, db_path: str = SELECTORS_DB_PATH):
         Path(db_path).parent.mkdir(parents=True, exist_ok=True)
-        self.con = duckdb.connect(db_path)
+        self.con = sqlite3.connect(db_path)
         self._init_db()
 
     def _init_db(self):
         self.con.execute("""
             CREATE TABLE IF NOT EXISTS selectors (
-                name          VARCHAR PRIMARY KEY,
-                strategy      VARCHAR,
-                primary_value VARCHAR,
-                fallback_value VARCHAR,
+                name          TEXT PRIMARY KEY,
+                strategy      TEXT,
+                primary_value TEXT,
+                fallback_value TEXT,
                 last_synced   TIMESTAMP
             )
         """)
@@ -78,7 +78,7 @@ class SelectorStore:
             count += 1
 
         self.con.commit()
-        log.info(f"✅ Selector sync complete: {count} selectors written to DuckDB ({SELECTORS_DB_PATH})")
+        log.info(f"✅ Selector sync complete: {count} selectors written to SQLite ({SELECTORS_DB_PATH})")
         return count
 
     def get_all(self):
