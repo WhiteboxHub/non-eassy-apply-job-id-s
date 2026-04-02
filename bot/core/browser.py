@@ -39,16 +39,41 @@ class Browser:
         
         return options
 
-    def _setup_driver(self):
+    def _get_chrome_major_version(self):
+        """Attempt to get installed Chrome major version on Windows to avoid hardcoding versions."""
+        if platform.system() != 'Windows':
+            return None
+        import winreg
         try:
-            driver = uc.Chrome(options=self._build_options(), version_main=144)
-            log.info("Chrome initialized successfully with forced version 144")
+            key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, r'Software\Google\Chrome\BLBeacon')
+            version, _ = winreg.QueryValueEx(key, 'version')
+            return int(version.split('.')[0])
+        except Exception:
+            pass
+        try:
+            key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, r'SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Google Chrome')
+            version, _ = winreg.QueryValueEx(key, 'DisplayVersion')
+            return int(version.split('.')[0])
+        except Exception:
+            pass
+        return None
+
+    def _setup_driver(self):
+        detected_version = self._get_chrome_major_version()
+        
+        try:
+            if detected_version:
+                driver = uc.Chrome(options=self._build_options(), version_main=detected_version)
+                log.info(f"Chrome initialized successfully with dynamically detected version {detected_version}")
+            else:
+                driver = uc.Chrome(options=self._build_options())
+                log.info("Chrome initialized successfully with built-in auto-detected version")
         except Exception as e:
-            log.warning(f"Failed with forced version 144, trying auto-detection: {e}")
+            log.warning(f"Failed with detected version {detected_version}, trying auto-detection fallback: {e}")
             try:
                 # Must build a fresh options object — cannot reuse the previous one
                 driver = uc.Chrome(options=self._build_options())
-                log.info("Chrome initialized successfully with auto-detected version")
+                log.info("Chrome initialized successfully with auto-detected version fallback")
             except Exception as e2:
                 log.error(f"Failed to initialize undetected-chromedriver: {e2}")
                 raise e2
