@@ -1,5 +1,0 @@
-2026-05-05 09:00:56 INFO    message=✅ Selector sync complete: 26 selectors written to SQLite (data/bot_data.sqlite)
-2026-05-05 09:00:56 INFO    message=============================================================
-2026-05-05 09:00:56 INFO    message=Website Scheduler - Starting
-2026-05-05 09:00:56 INFO    message=============================================================
-2026-05-05 09:00:56 INFO    message=Loaded API token from local cache.

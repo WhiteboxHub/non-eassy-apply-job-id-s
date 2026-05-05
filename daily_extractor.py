@@ -15,7 +15,7 @@ from dotenv import load_dotenv
 from bot.utils.startup_validation import run_startup_validation
 from bot.utils.metrics import metrics
 from bot.persistence.selector_store import SelectorStore
-
+from bot.utils.email_reporter import email_reporter
 # Timespan mapping for user-friendly configuration
 TIMESPAN_MAP = {
     "24h": "r86400",
@@ -265,5 +265,11 @@ def run_extraction():
         }
 
 if __name__ == '__main__':
-    run_extraction()
+    results = run_extraction()
+    if results:
+        try:
+            run_time_str = datetime.now().strftime('%I %p').lstrip('0') + " Run (Manual)"
+            email_reporter.send_report(results, run_name=run_time_str)
+        except Exception as e:
+            logger.error(f"Failed to send email report: {e}")
 

@@ -24,6 +24,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from daily_extractor import run_extraction
 from bot.utils.logger import logger
 from bot.api.base_client import BaseAPIClient
+from bot.utils.email_reporter import email_reporter
 
 load_dotenv()
 
@@ -300,6 +301,13 @@ def main():
                 "links": []
             }
         }
+        
+        # Step 6: Send Email Report
+        try:
+            run_time_str = datetime.now().strftime('%I %p').lstrip('0') + " Run"
+            email_reporter.send_report(results, run_name=run_time_str)
+        except Exception as e_mail:
+            logger.error(f"Failed to send email report: {e_mail}")
         
         if results and isinstance(results, dict):
             records_processed = results.get('jobs_saved', 0)

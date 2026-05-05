@@ -29,6 +29,7 @@ archive/
 # --- Logs ---
 *.log
 scheduler_log.txt
+logs/
 
 # --- IDEs & Editors ---
 .idea/
